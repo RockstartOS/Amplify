@@ -1,0 +1,251 @@
+import Link from "next/link";
+import { SiteHeader } from "@/components/site-header";
+import { SiteFooter } from "@/components/site-footer";
+import {
+  getActiveEvent,
+  getScheduleForEvent,
+  getTracksForEvent,
+  getTicketTypesForEvent,
+} from "@/lib/queries";
+import {
+  formatDateRange,
+  formatDayDate,
+  formatMoney,
+} from "@/lib/domain";
+
+export default async function HomePage() {
+  const event = await getActiveEvent();
+
+  if (!event) {
+    return (
+      <>
+        <SiteHeader />
+        <main className="mx-auto flex max-w-3xl flex-1 flex-col items-center justify-center px-5 py-32 text-center">
+          <h1 className="text-3xl font-bold">No event published yet</h1>
+          <p className="mt-3 text-ink/60">
+            An organiser can publish the next Amplify You edition from the{" "}
+            <Link href="/admin" className="text-brand underline">
+              admin backend
+            </Link>
+            .
+          </p>
+        </main>
+        <SiteFooter />
+      </>
+    );
+  }
+
+  const [days, tracks, tickets] = await Promise.all([
+    getScheduleForEvent(event.id),
+    getTracksForEvent(event.id),
+    getTicketTypesForEvent(event.id, true),
+  ]);
+
+  const lowestPrice = tickets.length
+    ? Math.min(...tickets.map((t) => t.priceCents))
+    : null;
+
+  return (
+    <>
+      {/* Hero */}
+      <section className="relative bg-brand-gradient text-white">
+        <SiteHeader transparent />
+        <div className="mx-auto max-w-6xl px-5 pb-24 pt-36 sm:pt-44">
+          <div className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-3 py-1 text-xs font-medium backdrop-blur">
+            <span className="h-2 w-2 rounded-full bg-accent" />
+            {event.city} · {formatDateRange(event.startDate, event.endDate)}
+          </div>
+
+          <h1 className="mt-6 max-w-3xl text-balance text-5xl font-bold leading-[1.05] tracking-tight sm:text-6xl">
+            Amplify <span className="text-accent">You</span>
+          </h1>
+          <p className="mt-5 max-w-2xl text-balance text-lg text-white/80 sm:text-xl">
+            {event.tagline}
+          </p>
+
+          <div className="mt-9 flex flex-wrap gap-3">
+            <Link
+              href="/register"
+              className="rounded-full bg-accent px-6 py-3 font-semibold text-ink transition-transform hover:scale-[1.03]"
+            >
+              Get your ticket
+              {lowestPrice != null && (
+                <span className="ml-2 font-normal opacity-70">
+                  from {formatMoney(lowestPrice)}
+                </span>
+              )}
+            </Link>
+            <Link
+              href="/schedule"
+              className="rounded-full border border-white/25 bg-white/5 px-6 py-3 font-semibold text-white backdrop-blur transition-colors hover:bg-white/10"
+            >
+              Explore the schedule
+            </Link>
+          </div>
+
+          <dl className="mt-16 grid max-w-2xl grid-cols-2 gap-6 sm:grid-cols-4">
+            {[
+              { k: "Format", v: "1.5 days" },
+              { k: "Days", v: `${days.length}` },
+              { k: "Tracks", v: `${tracks.length}` },
+              { k: "City", v: event.city },
+            ].map((s) => (
+              <div key={s.k}>
+                <dt className="text-xs uppercase tracking-wide text-white/50">
+                  {s.k}
+                </dt>
+                <dd className="mt-1 text-2xl font-semibold">{s.v}</dd>
+              </div>
+            ))}
+          </dl>
+        </div>
+      </section>
+
+      <main className="flex-1">
+        {/* About / the 1.5-day structure */}
+        <section id="about" className="mx-auto max-w-6xl px-5 py-20">
+          <div className="max-w-2xl">
+            <p className="text-sm font-semibold uppercase tracking-wide text-brand">
+              The format
+            </p>
+            <h2 className="mt-2 text-3xl font-bold tracking-tight sm:text-4xl">
+              One and a half days, two distinct moods.
+            </h2>
+            <p className="mt-4 text-ink/70">{event.description}</p>
+          </div>
+
+          <div className="mt-10 grid gap-6 md:grid-cols-2">
+            {days.map((day, i) => (
+              <div
+                key={day.id}
+                className="rounded-2xl border border-black/10 bg-white p-7 shadow-sm"
+              >
+                <div className="flex items-center gap-2 text-sm font-semibold text-brand">
+                  <span className="grid h-6 w-6 place-items-center rounded-full bg-brand/10 text-xs">
+                    {i + 1}
+                  </span>
+                  {day.name}
+                </div>
+                <p className="mt-1 text-sm text-ink/50">
+                  {formatDayDate(day.date)}
+                </p>
+                {day.theme && (
+                  <h3 className="mt-4 text-xl font-semibold">{day.theme}</h3>
+                )}
+                <p className="mt-2 text-ink/70">{day.description}</p>
+                <p className="mt-4 text-sm text-ink/40">
+                  {day.sessions.length} sessions
+                </p>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        {/* Tracks */}
+        <section id="tracks" className="border-y border-black/10 bg-white">
+          <div className="mx-auto max-w-6xl px-5 py-20">
+            <div className="flex flex-wrap items-end justify-between gap-4">
+              <div className="max-w-2xl">
+                <p className="text-sm font-semibold uppercase tracking-wide text-brand">
+                  Amplify It tracks
+                </p>
+                <h2 className="mt-2 text-3xl font-bold tracking-tight sm:text-4xl">
+                  Pick your domain.
+                </h2>
+                <p className="mt-4 text-ink/70">
+                  On the Amplify It morning, the programme splits into focused
+                  tracks. New tracks can be added any time from the backend.
+                </p>
+              </div>
+              <Link
+                href="/schedule"
+                className="rounded-full border border-black/15 px-5 py-2.5 text-sm font-semibold transition-colors hover:bg-paper"
+              >
+                See all sessions
+              </Link>
+            </div>
+
+            <div className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+              {tracks.map((track) => (
+                <div
+                  key={track.id}
+                  className="group rounded-2xl border border-black/10 p-6 transition-shadow hover:shadow-md"
+                  style={{ borderTopColor: track.color, borderTopWidth: 3 }}
+                >
+                  <div className="flex items-center gap-2">
+                    <span
+                      className="h-3 w-3 rounded-full"
+                      style={{ backgroundColor: track.color }}
+                    />
+                    <h3 className="text-lg font-semibold">{track.name}</h3>
+                  </div>
+                  <p className="mt-2 text-sm text-ink/70">{track.description}</p>
+                  <p className="mt-4 text-xs font-medium uppercase tracking-wide text-ink/40">
+                    {track._count.sessions} sessions
+                  </p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* Tickets */}
+        <section id="tickets" className="mx-auto max-w-6xl px-5 py-20">
+          <div className="max-w-2xl">
+            <p className="text-sm font-semibold uppercase tracking-wide text-brand">
+              Passes
+            </p>
+            <h2 className="mt-2 text-3xl font-bold tracking-tight sm:text-4xl">
+              Find the right way in.
+            </h2>
+          </div>
+
+          <div className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+            {tickets.map((ticket) => (
+              <div
+                key={ticket.id}
+                className="flex flex-col rounded-2xl border border-black/10 bg-white p-6 shadow-sm"
+              >
+                <h3 className="text-lg font-semibold">{ticket.name}</h3>
+                <p className="mt-1 text-2xl font-bold text-brand">
+                  {formatMoney(ticket.priceCents, ticket.currency)}
+                </p>
+                <p className="mt-3 flex-1 text-sm text-ink/60">
+                  {ticket.description}
+                </p>
+                <Link
+                  href={`/register?ticket=${ticket.id}`}
+                  className="mt-5 rounded-full bg-ink px-4 py-2.5 text-center text-sm font-semibold text-white transition-colors hover:bg-brand"
+                >
+                  Choose {ticket.name}
+                </Link>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        {/* CTA */}
+        <section className="bg-brand-gradient text-white">
+          <div className="mx-auto flex max-w-6xl flex-col items-start gap-6 px-5 py-20 sm:flex-row sm:items-center sm:justify-between">
+            <div>
+              <h2 className="text-3xl font-bold tracking-tight">
+                Ready to amplify?
+              </h2>
+              <p className="mt-2 text-white/75">
+                Join investors and founders in {event.city} this November.
+              </p>
+            </div>
+            <Link
+              href="/register"
+              className="rounded-full bg-accent px-7 py-3.5 font-semibold text-ink transition-transform hover:scale-[1.03]"
+            >
+              Get your ticket
+            </Link>
+          </div>
+        </section>
+      </main>
+
+      <SiteFooter />
+    </>
+  );
+}

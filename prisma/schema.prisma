@@ -1,0 +1,170 @@
+// Amplify You — event platform data model.
+// SQLite for zero-config local/dev runs; swap `provider`/`url` for Postgres in prod.
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = "file:./dev.db"
+}
+
+/// A single edition of an Amplify You event (e.g. "Amplify You · Amsterdam").
+model Event {
+  id          String   @id @default(cuid())
+  slug        String   @unique
+  name        String
+  tagline     String?
+  description String?
+  city        String
+  venue       String?
+  startDate   DateTime
+  endDate     DateTime
+  published   Boolean  @default(false)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  days          EventDay[]
+  tracks        Track[]
+  sessions      Session[]
+  ticketTypes   TicketType[]
+  registrations Registration[]
+}
+
+/// One day (or half-day) of the programme, e.g. "Invested Day" or "Amplify It".
+model EventDay {
+  id          String   @id @default(cuid())
+  eventId     String
+  event       Event    @relation(fields: [eventId], references: [id], onDelete: Cascade)
+  name        String
+  date        DateTime
+  theme       String?
+  description String?
+  position    Int      @default(0)
+
+  sessions Session[]
+
+  @@index([eventId])
+}
+
+/// A thematic track such as "Amplify Energy" or "Amplify Food & Bio". Extensible — add any track.
+model Track {
+  id          String   @id @default(cuid())
+  eventId     String
+  event       Event    @relation(fields: [eventId], references: [id], onDelete: Cascade)
+  name        String
+  slug        String
+  color       String   @default("#6366f1")
+  description String?
+  position    Int      @default(0)
+
+  sessions Session[]
+
+  @@unique([eventId, slug])
+  @@index([eventId])
+}
+
+/// A speaker / mentor / investor appearing on the programme.
+model Speaker {
+  id        String  @id @default(cuid())
+  name      String
+  title     String?
+  company   String?
+  bio       String?
+  avatarUrl String?
+
+  sessions SessionSpeaker[]
+}
+
+/// A single programme item: keynote, talk, panel, workshop, break, networking.
+model Session {
+  id          String   @id @default(cuid())
+  eventId     String
+  event       Event    @relation(fields: [eventId], references: [id], onDelete: Cascade)
+  dayId       String
+  day         EventDay @relation(fields: [dayId], references: [id], onDelete: Cascade)
+  trackId     String?
+  track       Track?   @relation(fields: [trackId], references: [id], onDelete: SetNull)
+  title       String
+  description String?
+  /// One of: KEYNOTE, TALK, PANEL, WORKSHOP, BREAK, NETWORKING, PITCH
+  kind        String   @default("TALK")
+  startTime   DateTime
+  endTime     DateTime
+  room        String?
+  capacity    Int?
+
+  speakers    SessionSpeaker[]
+  agendaItems AgendaItem[]
+
+  @@index([eventId])
+  @@index([dayId])
+  @@index([trackId])
+}
+
+/// Join table — speakers on sessions.
+model SessionSpeaker {
+  sessionId String
+  session   Session @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+  speakerId String
+  speaker   Speaker @relation(fields: [speakerId], references: [id], onDelete: Cascade)
+  position  Int     @default(0)
+
+  @@id([sessionId, speakerId])
+}
+
+/// A purchasable pass tier (e.g. Investor Pass, Founder Pass, Full Access).
+model TicketType {
+  id          String    @id @default(cuid())
+  eventId     String
+  event       Event     @relation(fields: [eventId], references: [id], onDelete: Cascade)
+  name        String
+  description String?
+  priceCents  Int       @default(0)
+  currency    String    @default("EUR")
+  quantity    Int?
+  salesStart  DateTime?
+  salesEnd    DateTime?
+  active      Boolean   @default(true)
+  position    Int       @default(0)
+
+  registrations Registration[]
+
+  @@index([eventId])
+}
+
+/// An attendee sign-up / ticket purchase.
+model Registration {
+  id           String     @id @default(cuid())
+  reference    String     @unique
+  eventId      String
+  event        Event      @relation(fields: [eventId], references: [id], onDelete: Cascade)
+  ticketTypeId String
+  ticketType   TicketType @relation(fields: [ticketTypeId], references: [id])
+  firstName    String
+  lastName     String
+  email        String
+  company      String?
+  role         String?
+  /// One of: PENDING, CONFIRMED, CANCELLED
+  status       String     @default("CONFIRMED")
+  createdAt    DateTime   @default(now())
+
+  agenda AgendaItem[]
+
+  @@index([eventId])
+  @@index([email])
+}
+
+/// A session an attendee has added to their personal agenda ("find your slot").
+model AgendaItem {
+  id             String       @id @default(cuid())
+  registrationId String
+  registration   Registration @relation(fields: [registrationId], references: [id], onDelete: Cascade)
+  sessionId      String
+  session        Session      @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+  createdAt      DateTime     @default(now())
+
+  @@unique([registrationId, sessionId])
+}

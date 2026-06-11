@@ -1,0 +1,42 @@
+@import "tailwindcss";
+
+@theme {
+  --color-ink: #0b0b14;
+  --color-ink-soft: #1a1a2e;
+  --color-brand: #5b4bf5;
+  --color-brand-dark: #3f33c2;
+  --color-brand-foreground: #ffffff;
+  --color-accent: #f59e0b;
+  --color-paper: #fbfaff;
+
+  --font-sans: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-geist-mono), ui-monospace, monospace;
+}
+
+:root {
+  --background: #fbfaff;
+  --foreground: #0b0b14;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Brand gradient used on hero and key surfaces. */
+.bg-brand-gradient {
+  background:
+    radial-gradient(1100px 500px at 15% -10%, rgba(91, 75, 245, 0.55), transparent 60%),
+    radial-gradient(900px 500px at 100% 0%, rgba(245, 158, 11, 0.35), transparent 55%),
+    linear-gradient(160deg, #0b0b14 0%, #161433 55%, #0b0b14 100%);
+}
+
+.text-balance {
+  text-wrap: balance;
+}

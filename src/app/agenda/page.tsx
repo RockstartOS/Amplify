@@ -1,0 +1,155 @@
+import Link from "next/link";
+import type { Metadata } from "next";
+import { SiteHeader } from "@/components/site-header";
+import { SiteFooter } from "@/components/site-footer";
+import { KindBadge, TrackPill } from "@/components/ui";
+import { LinkForm } from "./link-form";
+import { getAttendeeReference } from "@/lib/auth";
+import { getRegistrationByReference } from "@/lib/queries";
+import { toggleAgendaItem, signOutAttendee } from "@/lib/agenda-actions";
+import { formatTimeRange, formatDayDate } from "@/lib/domain";
+
+export const metadata: Metadata = { title: "My agenda" };
+
+export default async function AgendaPage() {
+  const reference = await getAttendeeReference();
+  const registration = reference
+    ? await getRegistrationByReference(reference)
+    : null;
+
+  if (!registration) {
+    return (
+      <>
+        <SiteHeader />
+        <main className="mx-auto flex max-w-md flex-1 flex-col justify-center px-5 py-20">
+          <h1 className="text-2xl font-bold tracking-tight">Your agenda</h1>
+          <p className="mt-2 text-ink/60">
+            Enter the reference code from your confirmation to view and build
+            your personal schedule.
+          </p>
+          <div className="mt-6 rounded-2xl border border-black/10 bg-white p-6 shadow-sm">
+            <LinkForm />
+          </div>
+          <p className="mt-4 text-center text-sm text-ink/50">
+            Don&apos;t have a ticket yet?{" "}
+            <Link href="/register" className="font-medium text-brand underline">
+              Register here
+            </Link>
+            .
+          </p>
+        </main>
+        <SiteFooter />
+      </>
+    );
+  }
+
+  // Group saved sessions by day, ordered by day position then start time.
+  const items = [...registration.agenda].sort((a, b) => {
+    const dp = a.session.day.position - b.session.day.position;
+    if (dp !== 0) return dp;
+    return a.session.startTime.getTime() - b.session.startTime.getTime();
+  });
+
+  const byDay = new Map<string, typeof items>();
+  for (const item of items) {
+    const key = item.session.day.id;
+    if (!byDay.has(key)) byDay.set(key, []);
+    byDay.get(key)!.push(item);
+  }
+
+  return (
+    <>
+      <SiteHeader />
+      <main className="flex-1">
+        <div className="mx-auto max-w-3xl px-5 py-12">
+          <header className="flex flex-wrap items-start justify-between gap-4">
+            <div>
+              <h1 className="text-3xl font-bold tracking-tight">My agenda</h1>
+              <p className="mt-1 text-ink/60">
+                {registration.firstName} {registration.lastName} ·{" "}
+                <span className="font-mono text-brand">{registration.reference}</span>{" "}
+                · {registration.ticketType.name}
+              </p>
+            </div>
+            <div className="flex gap-2">
+              <Link
+                href="/schedule"
+                className="rounded-full bg-brand px-4 py-2 text-sm font-semibold text-white transition-colors hover:bg-brand-dark"
+              >
+                + Add sessions
+              </Link>
+              <form action={signOutAttendee}>
+                <button className="rounded-full border border-black/15 px-4 py-2 text-sm font-semibold transition-colors hover:bg-paper">
+                  Sign out
+                </button>
+              </form>
+            </div>
+          </header>
+
+          {items.length === 0 ? (
+            <div className="mt-10 rounded-2xl border border-dashed border-black/15 py-16 text-center">
+              <p className="text-ink/60">Your agenda is empty.</p>
+              <Link
+                href="/schedule"
+                className="mt-4 inline-block rounded-full bg-accent px-5 py-2.5 text-sm font-semibold text-ink"
+              >
+                Browse the schedule
+              </Link>
+            </div>
+          ) : (
+            <div className="mt-8 space-y-10">
+              {[...byDay.values()].map((dayItems) => {
+                const day = dayItems[0].session.day;
+                return (
+                  <section key={day.id}>
+                    <h2 className="text-lg font-bold">{day.name}</h2>
+                    <p className="text-sm text-ink/50">{formatDayDate(day.date)}</p>
+                    <div className="mt-3 space-y-3">
+                      {dayItems.map(({ session }) => (
+                        <div
+                          key={session.id}
+                          className="flex items-start gap-4 rounded-xl border border-black/10 bg-white p-4 shadow-sm"
+                        >
+                          <div className="w-24 shrink-0 font-mono text-sm text-ink/60">
+                            {formatTimeRange(session.startTime, session.endTime)}
+                          </div>
+                          <div className="flex-1">
+                            <div className="flex flex-wrap items-center gap-2">
+                              <KindBadge kind={session.kind} />
+                              {session.track && (
+                                <TrackPill
+                                  name={session.track.name}
+                                  color={session.track.color}
+                                />
+                              )}
+                              {session.room && (
+                                <span className="text-xs text-ink/40">
+                                  · {session.room}
+                                </span>
+                              )}
+                            </div>
+                            <h3 className="mt-1 font-semibold">{session.title}</h3>
+                          </div>
+                          <form action={toggleAgendaItem}>
+                            <input type="hidden" name="sessionId" value={session.id} />
+                            <button
+                              className="rounded-full border border-black/15 px-3 py-1.5 text-xs font-semibold text-ink/60 transition-colors hover:border-red-300 hover:bg-red-50 hover:text-red-600"
+                              title="Remove from agenda"
+                            >
+                              Remove
+                            </button>
+                          </form>
+                        </div>
+                      ))}
+                    </div>
+                  </section>
+                );
+              })}
+            </div>
+          )}
+        </div>
+      </main>
+      <SiteFooter />
+    </>
+  );
+}
