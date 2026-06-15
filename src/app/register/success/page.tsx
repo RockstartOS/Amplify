@@ -22,8 +22,8 @@ export default async function SuccessPage({
     <>
       <SiteHeader />
       <main className="mx-auto flex max-w-2xl flex-1 flex-col px-5 py-16">
-        <div className="rounded-2xl border border-black/10 bg-white p-8 text-center shadow-sm">
-          <div className="mx-auto grid h-14 w-14 place-items-center rounded-full bg-emerald-100 text-2xl text-emerald-600">
+        <div className="rounded-2xl border border-cream/10 bg-surface p-8 text-center ">
+          <div className="mx-auto grid h-14 w-14 place-items-center rounded-full border border-indigo/30 bg-indigo/15 text-2xl text-indigo-soft">
             ✓
           </div>
           <h1 className="mt-5 text-3xl font-bold tracking-tight">
@@ -63,7 +63,7 @@ export default async function SuccessPage({
             </Link>
             <Link
               href="/agenda"
-              className="rounded-full border border-black/15 px-6 py-3 font-semibold transition-colors hover:bg-paper"
+              className="rounded-full border border-cream/15 px-6 py-3 font-semibold transition-colors hover:bg-paper"
             >
               View my agenda
             </Link>

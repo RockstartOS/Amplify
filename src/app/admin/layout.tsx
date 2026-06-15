@@ -26,9 +26,9 @@ export default async function AdminLayout({
   if (!authed) {
     return (
       <main className="grid min-h-screen place-items-center bg-brand-gradient px-5">
-        <div className="w-full max-w-sm rounded-2xl bg-white p-8 shadow-xl">
+        <div className="w-full max-w-sm rounded-2xl bg-surface p-8 ">
           <div className="flex items-center gap-2 font-semibold">
-            <span className="grid h-7 w-7 place-items-center rounded-md bg-brand text-sm font-bold text-white">
+            <span className="grid h-7 w-7 place-items-center rounded-md bg-brand text-sm font-bold text-cream">
               A
             </span>
             Amplify You · Organiser
@@ -52,10 +52,10 @@ export default async function AdminLayout({
 
   return (
     <div className="flex min-h-screen flex-col bg-paper md:flex-row">
-      <aside className="border-b border-black/10 bg-white md:w-60 md:border-b-0 md:border-r">
+      <aside className="border-b border-cream/10 bg-surface md:w-60 md:border-b-0 md:border-r">
         <div className="flex items-center justify-between p-5">
           <Link href="/admin" className="flex items-center gap-2 font-semibold">
-            <span className="grid h-7 w-7 place-items-center rounded-md bg-brand text-sm font-bold text-white">
+            <span className="grid h-7 w-7 place-items-center rounded-md bg-brand text-sm font-bold text-cream">
               A
             </span>
             Organiser
@@ -74,7 +74,7 @@ export default async function AdminLayout({
         </nav>
         <div className="hidden p-3 md:block">
           <form action={logoutAction}>
-            <button className="w-full rounded-lg px-3 py-2 text-left text-sm text-ink/50 hover:bg-paper hover:text-red-600">
+            <button className="w-full rounded-lg px-3 py-2 text-left text-sm text-ink/50 hover:bg-paper hover:text-red-400">
               Sign out
             </button>
           </form>

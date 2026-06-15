@@ -27,7 +27,7 @@ export default async function AgendaPage() {
             Enter the reference code from your confirmation to view and build
             your personal schedule.
           </p>
-          <div className="mt-6 rounded-2xl border border-black/10 bg-white p-6 shadow-sm">
+          <div className="mt-6 rounded-2xl border border-cream/10 bg-surface p-6 ">
             <LinkForm />
           </div>
           <p className="mt-4 text-center text-sm text-ink/50">
@@ -74,12 +74,12 @@ export default async function AgendaPage() {
             <div className="flex gap-2">
               <Link
                 href="/schedule"
-                className="rounded-full bg-brand px-4 py-2 text-sm font-semibold text-white transition-colors hover:bg-brand-dark"
+                className="rounded-full bg-brand px-4 py-2 text-sm font-semibold text-cream transition-colors hover:bg-brand-dark"
               >
                 + Add sessions
               </Link>
               <form action={signOutAttendee}>
-                <button className="rounded-full border border-black/15 px-4 py-2 text-sm font-semibold transition-colors hover:bg-paper">
+                <button className="rounded-full border border-cream/15 px-4 py-2 text-sm font-semibold transition-colors hover:bg-paper">
                   Sign out
                 </button>
               </form>
@@ -87,7 +87,7 @@ export default async function AgendaPage() {
           </header>
 
           {items.length === 0 ? (
-            <div className="mt-10 rounded-2xl border border-dashed border-black/15 py-16 text-center">
+            <div className="mt-10 rounded-2xl border border-dashed border-cream/15 py-16 text-center">
               <p className="text-ink/60">Your agenda is empty.</p>
               <Link
                 href="/schedule"
@@ -108,7 +108,7 @@ export default async function AgendaPage() {
                       {dayItems.map(({ session }) => (
                         <div
                           key={session.id}
-                          className="flex items-start gap-4 rounded-xl border border-black/10 bg-white p-4 shadow-sm"
+                          className="flex items-start gap-4 rounded-xl border border-cream/10 bg-surface p-4 "
                         >
                           <div className="w-24 shrink-0 font-mono text-sm text-ink/60">
                             {formatTimeRange(session.startTime, session.endTime)}
@@ -133,7 +133,7 @@ export default async function AgendaPage() {
                           <form action={toggleAgendaItem}>
                             <input type="hidden" name="sessionId" value={session.id} />
                             <button
-                              className="rounded-full border border-black/15 px-3 py-1.5 text-xs font-semibold text-ink/60 transition-colors hover:border-red-300 hover:bg-red-50 hover:text-red-600"
+                              className="rounded-full border border-cream/15 px-3 py-1.5 text-xs font-semibold text-ink/60 transition-colors hover:border-red-500/40 hover:bg-red-500/10 hover:text-red-400"
                               title="Remove from agenda"
                             >
                               Remove

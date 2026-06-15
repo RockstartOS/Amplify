@@ -28,14 +28,14 @@ export function Card({
   className?: string;
 }) {
   return (
-    <div className={`rounded-2xl border border-black/10 bg-white p-6 shadow-sm ${className}`}>
+    <div className={`rounded-2xl border border-cream/10 bg-surface p-6  ${className}`}>
       {children}
     </div>
   );
 }
 
 const inputCls =
-  "mt-1 w-full rounded-lg border border-black/15 px-3 py-2 text-sm outline-none focus:border-brand focus:ring-2 focus:ring-brand/20";
+  "mt-1 w-full rounded-lg border border-cream/15 px-3 py-2 text-sm outline-none focus:border-brand focus:ring-2 focus:ring-brand/20";
 
 export function Field({
   label,
@@ -140,7 +140,7 @@ export function CheckboxField({
         type="checkbox"
         name={name}
         defaultChecked={defaultChecked}
-        className="h-4 w-4 rounded border-black/20 text-brand focus:ring-brand"
+        className="h-4 w-4 rounded border-cream/20 text-brand focus:ring-brand"
       />
       {label}
     </label>
@@ -151,7 +151,7 @@ export function SubmitButton({ children }: { children: React.ReactNode }) {
   return (
     <button
       type="submit"
-      className="rounded-full bg-ink px-5 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-brand"
+      className="rounded-full bg-indigo px-5 py-2.5 text-sm font-semibold text-cream transition-colors hover:bg-brand"
     >
       {children}
     </button>
@@ -170,7 +170,7 @@ export function DeleteButton({
   return (
     <form action={action}>
       <input type="hidden" name="id" value={id} />
-      <button className="rounded-lg px-3 py-1.5 text-xs font-semibold text-ink/50 transition-colors hover:bg-red-50 hover:text-red-600">
+      <button className="rounded-lg px-3 py-1.5 text-xs font-semibold text-ink/50 transition-colors hover:bg-red-500/10 hover:text-red-400">
         {label}
       </button>
     </form>

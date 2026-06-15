@@ -61,7 +61,7 @@ export default async function SchedulePage({
         <div className="mx-auto max-w-5xl px-5 py-12">
           <header className="flex flex-wrap items-end justify-between gap-4">
             <div>
-              <p className="text-sm font-semibold uppercase tracking-wide text-brand">
+              <p className="mono text-[11px] font-medium uppercase tracking-[0.22em] text-indigo">
                 {event.name}
               </p>
               <h1 className="mt-1 text-3xl font-bold tracking-tight sm:text-4xl">
@@ -74,14 +74,14 @@ export default async function SchedulePage({
             {isLinked ? (
               <Link
                 href="/agenda"
-                className="rounded-full bg-brand px-5 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-brand-dark"
+                className="rounded-full bg-brand px-5 py-2.5 text-sm font-semibold text-cream transition-colors hover:bg-brand-dark"
               >
                 My agenda ({savedIds.size})
               </Link>
             ) : (
               <Link
                 href="/agenda"
-                className="rounded-full border border-black/15 px-5 py-2.5 text-sm font-semibold transition-colors hover:bg-paper"
+                className="rounded-full border border-cream/15 px-5 py-2.5 text-sm font-semibold transition-colors hover:bg-paper"
               >
                 Sign in to save sessions
               </Link>
@@ -137,7 +137,7 @@ export default async function SchedulePage({
                       {day.theme ? ` · ${day.theme}` : ""}
                     </p>
                   </div>
-                  <div className="mt-2 rounded-2xl border border-black/10 bg-white px-5 shadow-sm">
+                  <div className="mt-2 rounded-2xl border border-cream/10 bg-surface px-5 ">
                     {sessions.map((session) => (
                       <SessionRow
                         key={session.id}
@@ -153,7 +153,7 @@ export default async function SchedulePage({
             {visibleDays.every(
               (d) => d.sessions.filter((s) => filterSession(s.trackId)).length === 0
             ) && (
-              <p className="rounded-2xl border border-dashed border-black/15 py-16 text-center text-ink/50">
+              <p className="rounded-2xl border border-dashed border-cream/15 py-16 text-center text-ink/50">
                 No sessions match this filter.
               </p>
             )}
@@ -189,8 +189,8 @@ function FilterChip({
       href={href}
       className={`inline-flex items-center gap-1.5 rounded-full border px-3.5 py-1.5 text-sm font-medium transition-colors ${
         active
-          ? "border-transparent bg-ink text-white"
-          : "border-black/15 text-ink/70 hover:bg-white"
+          ? "border-transparent bg-indigo text-cream"
+          : "border-cream/15 text-ink/70 hover:bg-surface"
       }`}
     >
       {color && (

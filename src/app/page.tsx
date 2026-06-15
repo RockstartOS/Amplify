@@ -48,10 +48,10 @@ export default async function HomePage() {
   return (
     <>
       {/* Hero */}
-      <section className="relative bg-brand-gradient text-white">
+      <section className="relative bg-brand-gradient text-cream">
         <SiteHeader transparent />
         <div className="mx-auto max-w-6xl px-5 pb-24 pt-36 sm:pt-44">
-          <div className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-3 py-1 text-xs font-medium backdrop-blur">
+          <div className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-surface/10 px-3 py-1 text-xs font-medium backdrop-blur">
             <span className="h-2 w-2 rounded-full bg-accent" />
             {event.city} · {formatDateRange(event.startDate, event.endDate)}
           </div>
@@ -59,7 +59,7 @@ export default async function HomePage() {
           <h1 className="mt-6 max-w-3xl text-balance text-5xl font-bold leading-[1.05] tracking-tight sm:text-6xl">
             Amplify <span className="text-accent">You</span>
           </h1>
-          <p className="mt-5 max-w-2xl text-balance text-lg text-white/80 sm:text-xl">
+          <p className="mt-5 max-w-2xl text-balance text-lg text-cream/80 sm:text-xl">
             {event.tagline}
           </p>
 
@@ -77,7 +77,7 @@ export default async function HomePage() {
             </Link>
             <Link
               href="/schedule"
-              className="rounded-full border border-white/25 bg-white/5 px-6 py-3 font-semibold text-white backdrop-blur transition-colors hover:bg-white/10"
+              className="rounded-full border border-white/25 bg-surface/5 px-6 py-3 font-semibold text-cream backdrop-blur transition-colors hover:bg-surface/10"
             >
               Explore the schedule
             </Link>
@@ -91,7 +91,7 @@ export default async function HomePage() {
               { k: "City", v: event.city },
             ].map((s) => (
               <div key={s.k}>
-                <dt className="text-xs uppercase tracking-wide text-white/50">
+                <dt className="text-xs uppercase tracking-wide text-cream/50">
                   {s.k}
                 </dt>
                 <dd className="mt-1 text-2xl font-semibold">{s.v}</dd>
@@ -105,7 +105,7 @@ export default async function HomePage() {
         {/* About / the 1.5-day structure */}
         <section id="about" className="mx-auto max-w-6xl px-5 py-20">
           <div className="max-w-2xl">
-            <p className="text-sm font-semibold uppercase tracking-wide text-brand">
+            <p className="mono text-[11px] font-medium uppercase tracking-[0.22em] text-indigo">
               The format
             </p>
             <h2 className="mt-2 text-3xl font-bold tracking-tight sm:text-4xl">
@@ -118,7 +118,7 @@ export default async function HomePage() {
             {days.map((day, i) => (
               <div
                 key={day.id}
-                className="rounded-2xl border border-black/10 bg-white p-7 shadow-sm"
+                className="rounded-2xl border border-cream/10 bg-surface p-7 "
               >
                 <div className="flex items-center gap-2 text-sm font-semibold text-brand">
                   <span className="grid h-6 w-6 place-items-center rounded-full bg-brand/10 text-xs">
@@ -142,11 +142,11 @@ export default async function HomePage() {
         </section>
 
         {/* Tracks */}
-        <section id="tracks" className="border-y border-black/10 bg-white">
+        <section id="tracks" className="border-y border-cream/10 bg-surface">
           <div className="mx-auto max-w-6xl px-5 py-20">
             <div className="flex flex-wrap items-end justify-between gap-4">
               <div className="max-w-2xl">
-                <p className="text-sm font-semibold uppercase tracking-wide text-brand">
+                <p className="mono text-[11px] font-medium uppercase tracking-[0.22em] text-indigo">
                   Amplify It tracks
                 </p>
                 <h2 className="mt-2 text-3xl font-bold tracking-tight sm:text-4xl">
@@ -159,7 +159,7 @@ export default async function HomePage() {
               </div>
               <Link
                 href="/schedule"
-                className="rounded-full border border-black/15 px-5 py-2.5 text-sm font-semibold transition-colors hover:bg-paper"
+                className="rounded-full border border-cream/15 px-5 py-2.5 text-sm font-semibold transition-colors hover:bg-paper"
               >
                 See all sessions
               </Link>
@@ -169,7 +169,7 @@ export default async function HomePage() {
               {tracks.map((track) => (
                 <div
                   key={track.id}
-                  className="group rounded-2xl border border-black/10 p-6 transition-shadow hover:shadow-md"
+                  className="group rounded-2xl border border-cream/10 p-6 transition-shadow "
                   style={{ borderTopColor: track.color, borderTopWidth: 3 }}
                 >
                   <div className="flex items-center gap-2">
@@ -192,7 +192,7 @@ export default async function HomePage() {
         {/* Tickets */}
         <section id="tickets" className="mx-auto max-w-6xl px-5 py-20">
           <div className="max-w-2xl">
-            <p className="text-sm font-semibold uppercase tracking-wide text-brand">
+            <p className="mono text-[11px] font-medium uppercase tracking-[0.22em] text-indigo">
               Passes
             </p>
             <h2 className="mt-2 text-3xl font-bold tracking-tight sm:text-4xl">
@@ -204,7 +204,7 @@ export default async function HomePage() {
             {tickets.map((ticket) => (
               <div
                 key={ticket.id}
-                className="flex flex-col rounded-2xl border border-black/10 bg-white p-6 shadow-sm"
+                className="flex flex-col rounded-2xl border border-cream/10 bg-surface p-6 "
               >
                 <h3 className="text-lg font-semibold">{ticket.name}</h3>
                 <p className="mt-1 text-2xl font-bold text-brand">
@@ -215,7 +215,7 @@ export default async function HomePage() {
                 </p>
                 <Link
                   href={`/register?ticket=${ticket.id}`}
-                  className="mt-5 rounded-full bg-ink px-4 py-2.5 text-center text-sm font-semibold text-white transition-colors hover:bg-brand"
+                  className="mt-5 rounded-full bg-indigo px-4 py-2.5 text-center text-sm font-semibold text-cream transition-colors hover:bg-brand"
                 >
                   Choose {ticket.name}
                 </Link>
@@ -225,13 +225,13 @@ export default async function HomePage() {
         </section>
 
         {/* CTA */}
-        <section className="bg-brand-gradient text-white">
+        <section className="bg-brand-gradient text-cream">
           <div className="mx-auto flex max-w-6xl flex-col items-start gap-6 px-5 py-20 sm:flex-row sm:items-center sm:justify-between">
             <div>
               <h2 className="text-3xl font-bold tracking-tight">
                 Ready to amplify?
               </h2>
-              <p className="mt-2 text-white/75">
+              <p className="mt-2 text-cream/75">
                 Join investors and founders in {event.city} this November.
               </p>
             </div>

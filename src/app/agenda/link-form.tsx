@@ -17,14 +17,14 @@ export function LinkForm() {
           name="reference"
           placeholder="AMS-XXXXXX"
           autoComplete="off"
-          className="mt-1 w-full rounded-lg border border-black/15 px-3 py-2.5 font-mono uppercase tracking-widest outline-none focus:border-brand focus:ring-2 focus:ring-brand/20"
+          className="mt-1 w-full rounded-lg border border-cream/15 px-3 py-2.5 font-mono uppercase tracking-widest outline-none focus:border-brand focus:ring-2 focus:ring-brand/20"
         />
       </label>
-      {state.error && <p className="text-sm text-red-600">{state.error}</p>}
+      {state.error && <p className="text-sm text-red-400">{state.error}</p>}
       <button
         type="submit"
         disabled={pending}
-        className="w-full rounded-full bg-ink px-5 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-brand disabled:opacity-60"
+        className="w-full rounded-full bg-indigo px-5 py-2.5 text-sm font-semibold text-cream transition-colors hover:bg-brand disabled:opacity-60"
       >
         {pending ? "Looking up…" : "Open my agenda"}
       </button>

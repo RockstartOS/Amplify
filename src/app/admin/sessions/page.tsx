@@ -27,7 +27,7 @@ export default async function AdminSessionsPage() {
         action={
           <Link
             href="/admin/sessions/new"
-            className="rounded-full bg-ink px-5 py-2.5 text-sm font-semibold text-white hover:bg-brand"
+            className="rounded-full bg-indigo px-5 py-2.5 text-sm font-semibold text-cream hover:bg-brand"
           >
             + New session
           </Link>
@@ -49,7 +49,7 @@ export default async function AdminSessionsPage() {
             </Link>
           </div>
 
-          <div className="mt-3 divide-y divide-black/5">
+          <div className="mt-3 divide-y divide-cream/10">
             {day.sessions.length === 0 && (
               <p className="py-6 text-sm text-ink/45">No sessions on this day yet.</p>
             )}

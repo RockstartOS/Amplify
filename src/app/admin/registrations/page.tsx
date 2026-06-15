@@ -8,9 +8,9 @@ import {
 import { REGISTRATION_STATUSES } from "@/lib/domain";
 
 const statusStyles: Record<string, string> = {
-  CONFIRMED: "bg-emerald-100 text-emerald-700",
-  PENDING: "bg-amber-100 text-amber-700",
-  CANCELLED: "bg-red-100 text-red-700",
+  CONFIRMED: "border-emerald-400/30 bg-emerald-400/10 text-emerald-300",
+  PENDING: "border-amber-400/30 bg-amber-400/10 text-amber-300",
+  CANCELLED: "border-red-500/30 bg-red-500/10 text-red-300",
 };
 
 export default async function AdminRegistrationsPage() {
@@ -35,7 +35,7 @@ export default async function AdminRegistrationsPage() {
 
       <Card className="overflow-x-auto p-0">
         <table className="w-full min-w-[760px] text-sm">
-          <thead className="border-b border-black/10 text-left text-xs uppercase tracking-wide text-ink/45">
+          <thead className="border-b border-cream/10 text-left text-xs uppercase tracking-wide text-ink/45">
             <tr>
               <th className="px-5 py-3">Attendee</th>
               <th className="px-5 py-3">Ticket</th>
@@ -54,7 +54,7 @@ export default async function AdminRegistrationsPage() {
               </tr>
             )}
             {registrations.map((r) => (
-              <tr key={r.id} className="border-b border-black/5 last:border-0">
+              <tr key={r.id} className="border-b border-cream/10 last:border-0">
                 <td className="px-5 py-3">
                   <div className="font-medium">
                     {r.firstName} {r.lastName}
@@ -79,8 +79,8 @@ export default async function AdminRegistrationsPage() {
                   <form action={updateRegistrationStatusAction} className="flex items-center gap-2">
                     <input type="hidden" name="id" value={r.id} />
                     <span
-                      className={`rounded-full px-2 py-0.5 text-xs font-semibold ${
-                        statusStyles[r.status] ?? "bg-slate-100 text-slate-600"
+                      className={`mono rounded-full border px-2 py-0.5 text-[10px] font-medium uppercase tracking-[0.16em] ${
+                        statusStyles[r.status] ?? "border-cream/15 bg-cream/5 text-cream/60"
                       }`}
                     >
                       {r.status}
@@ -88,7 +88,7 @@ export default async function AdminRegistrationsPage() {
                     <select
                       name="status"
                       defaultValue={r.status}
-                      className="rounded border border-black/15 px-1.5 py-1 text-xs outline-none focus:border-brand"
+                      className="rounded border border-cream/15 px-1.5 py-1 text-xs outline-none focus:border-brand"
                     >
                       {REGISTRATION_STATUSES.map((s) => (
                         <option key={s} value={s}>
@@ -96,7 +96,7 @@ export default async function AdminRegistrationsPage() {
                         </option>
                       ))}
                     </select>
-                    <button className="rounded bg-ink px-2 py-1 text-xs font-semibold text-white hover:bg-brand">
+                    <button className="rounded bg-indigo px-2 py-1 text-xs font-semibold text-cream hover:bg-brand">
                       Set
                     </button>
                   </form>
@@ -104,7 +104,7 @@ export default async function AdminRegistrationsPage() {
                 <td className="px-5 py-3">
                   <form action={deleteRegistrationAction}>
                     <input type="hidden" name="id" value={r.id} />
-                    <button className="text-xs font-semibold text-ink/40 hover:text-red-600">
+                    <button className="text-xs font-semibold text-ink/40 hover:text-red-400">
                       Delete
                     </button>
                   </form>

@@ -14,48 +14,35 @@ export function SiteHeader({ transparent = false }: { transparent?: boolean }) {
       className={
         transparent
           ? "absolute inset-x-0 top-0 z-20"
-          : "sticky top-0 z-20 border-b border-black/10 bg-paper/85 backdrop-blur"
+          : "sticky top-0 z-20 border-b border-cream/10 bg-paper/85 backdrop-blur"
       }
     >
       <div className="mx-auto flex max-w-6xl items-center justify-between px-5 py-4">
         <Link
           href="/"
-          className={`flex items-center gap-2 font-semibold tracking-tight ${
-            transparent ? "text-white" : "text-ink"
-          }`}
+          className="font-display text-lg font-bold tracking-tight text-cream"
         >
-          <span className="grid h-7 w-7 place-items-center rounded-md bg-brand text-sm font-bold text-white">
-            A
-          </span>
-          <span>
-            Amplify <span className="text-accent">You</span>
-          </span>
+          Amplify <span className="text-indigo">You</span>
         </Link>
 
-        <nav
-          className={`hidden items-center gap-6 text-sm md:flex ${
-            transparent ? "text-white/80" : "text-ink/70"
-          }`}
-        >
+        <nav className="hidden items-center gap-9 md:flex">
           {navItems.map((item) => (
             <Link
               key={item.href}
               href={item.href}
-              className="transition-colors hover:text-accent"
+              className="mono text-[10px] font-medium uppercase tracking-[0.22em] text-cream/50 transition-colors hover:text-cream"
             >
               {item.label}
             </Link>
           ))}
         </nav>
 
-        <div className="flex items-center gap-3">
-          <Link
-            href="/register"
-            className="rounded-full bg-accent px-4 py-2 text-sm font-semibold text-ink transition-transform hover:scale-[1.03]"
-          >
-            Get tickets
-          </Link>
-        </div>
+        <Link
+          href="/register"
+          className="rounded-full bg-indigo px-4 py-2 text-sm font-semibold text-cream transition-colors hover:bg-indigo-soft"
+        >
+          Get tickets
+        </Link>
       </div>
     </header>
   );

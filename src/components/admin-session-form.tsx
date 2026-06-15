@@ -114,14 +114,14 @@ export function AdminSessionForm({
             {speakers.map((s) => (
               <label
                 key={s.id}
-                className="flex items-center gap-2 rounded-lg border border-black/10 px-3 py-2 text-sm"
+                className="flex items-center gap-2 rounded-lg border border-cream/10 px-3 py-2 text-sm"
               >
                 <input
                   type="checkbox"
                   name="speakerIds"
                   value={s.id}
                   defaultChecked={selectedSpeakers.has(s.id)}
-                  className="h-4 w-4 rounded border-black/20 text-brand focus:ring-brand"
+                  className="h-4 w-4 rounded border-cream/20 text-brand focus:ring-brand"
                 />
                 <span>
                   {s.name}

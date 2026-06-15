@@ -42,10 +42,10 @@ export function RegisterForm({
               key={ticket.id}
               className={`relative flex cursor-pointer flex-col rounded-xl border p-4 transition-colors ${
                 ticket.soldOut
-                  ? "cursor-not-allowed border-black/10 bg-paper opacity-60"
+                  ? "cursor-not-allowed border-cream/10 bg-paper opacity-60"
                   : selected === ticket.id
                   ? "border-brand bg-brand/5 ring-1 ring-brand"
-                  : "border-black/15 hover:border-brand/50"
+                  : "border-cream/15 hover:border-brand/50"
               }`}
             >
               <input
@@ -67,7 +67,7 @@ export function RegisterForm({
                 <span className="mt-1 text-xs text-ink/55">{ticket.description}</span>
               )}
               {ticket.soldOut && (
-                <span className="mt-2 text-xs font-semibold uppercase text-red-600">
+                <span className="mt-2 text-xs font-semibold uppercase text-red-400">
                   Sold out
                 </span>
               )}
@@ -87,7 +87,7 @@ export function RegisterForm({
       </fieldset>
 
       {state.error && (
-        <p className="rounded-lg bg-red-50 px-4 py-3 text-sm text-red-700">
+        <p className="rounded-lg bg-red-500/10 px-4 py-3 text-sm text-red-300">
           {state.error}
         </p>
       )}
@@ -130,7 +130,7 @@ function Field({
         name={name}
         type={type}
         required={required}
-        className="mt-1 w-full rounded-lg border border-black/15 px-3 py-2.5 text-sm outline-none transition-colors focus:border-brand focus:ring-2 focus:ring-brand/20"
+        className="mt-1 w-full rounded-lg border border-cream/15 px-3 py-2.5 text-sm outline-none transition-colors focus:border-brand focus:ring-2 focus:ring-brand/20"
       />
     </label>
   );

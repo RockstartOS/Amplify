@@ -1,21 +1,30 @@
 @import "tailwindcss";
 
 @theme {
-  --color-ink: #0b0b14;
-  --color-ink-soft: #1a1a2e;
-  --color-brand: #5b4bf5;
-  --color-brand-dark: #3f33c2;
-  --color-brand-foreground: #ffffff;
-  --color-accent: #f59e0b;
-  --color-paper: #fbfaff;
+  /* ── Rockstart 3.0 palette ── */
+  --color-bg: #0d0c0b; /* Deep Black — primary surface */
+  --color-surface: #1a1918; /* Black — secondary surface */
+  --color-cream: #f4f0ea; /* Warm White — never pure #fff */
+  --color-indigo: #7a5dff; /* THE accent. One per section. */
+  --color-indigo-soft: #9a83ff;
+  --color-sand: #f3e5cd; /* human warmth */
+  --color-rock: #d6d6cc; /* data & proof */
 
-  --font-sans: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
+  /* ── Back-compat aliases: existing utility names adopt the brand ── */
+  --color-ink: #f4f0ea; /* was dark text → warm white */
+  --color-paper: #0d0c0b; /* page background → deep black */
+  --color-brand: #7a5dff;
+  --color-brand-dark: #6044f0;
+  --color-accent: #7a5dff; /* fold the old amber into indigo */
+
+  --font-display: var(--font-syne), ui-sans-serif, system-ui, sans-serif;
+  --font-sans: var(--font-plex), ui-sans-serif, system-ui, sans-serif;
   --font-mono: var(--font-geist-mono), ui-monospace, monospace;
 }
 
 :root {
-  --background: #fbfaff;
-  --foreground: #0b0b14;
+  --background: #0d0c0b;
+  --foreground: #f4f0ea;
 }
 
 html {
@@ -26,17 +35,56 @@ body {
   background: var(--background);
   color: var(--foreground);
   font-family: var(--font-sans);
+  line-height: 1.65;
   -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
-/* Brand gradient used on hero and key surfaces. */
+/* Display headings are always Syne 700. */
+h1,
+h2,
+h3,
+h4,
+.font-display {
+  font-family: var(--font-display);
+  font-weight: 700;
+  letter-spacing: -0.025em;
+}
+
+/* Geist Mono label / eyebrow — uppercase, tracked. */
+.eyebrow {
+  font-family: var(--font-mono);
+  font-weight: 500;
+  font-size: 11px;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--color-rock);
+  opacity: 0.65;
+}
+
+.mono {
+  font-family: var(--font-mono);
+}
+
+/* Hero: deep black with a single restrained indigo glow + watermark. */
 .bg-brand-gradient {
   background:
-    radial-gradient(1100px 500px at 15% -10%, rgba(91, 75, 245, 0.55), transparent 60%),
-    radial-gradient(900px 500px at 100% 0%, rgba(245, 158, 11, 0.35), transparent 55%),
-    linear-gradient(160deg, #0b0b14 0%, #161433 55%, #0b0b14 100%);
+    radial-gradient(900px 460px at 12% -10%, rgba(122, 93, 255, 0.22), transparent 60%),
+    radial-gradient(700px 420px at 100% 0%, rgba(122, 93, 255, 0.1), transparent 55%),
+    #0d0c0b;
 }
 
 .text-balance {
   text-wrap: balance;
+}
+
+/* Form controls on the dark canvas. */
+input,
+select,
+textarea {
+  color-scheme: dark;
+}
+
+::placeholder {
+  color: rgba(244, 240, 234, 0.35);
 }

@@ -19,21 +19,21 @@ export function TrackPill({
 }
 
 const kindStyles: Record<string, string> = {
-  KEYNOTE: "bg-brand/10 text-brand",
-  PANEL: "bg-accent/15 text-amber-700",
-  WORKSHOP: "bg-emerald-100 text-emerald-700",
-  PITCH: "bg-pink-100 text-pink-700",
-  TALK: "bg-slate-100 text-slate-600",
-  NETWORKING: "bg-cyan-100 text-cyan-700",
-  BREAK: "bg-slate-100 text-slate-500",
+  KEYNOTE: "text-indigo-soft",
+  PANEL: "text-cream/70",
+  WORKSHOP: "text-cream/70",
+  PITCH: "text-indigo-soft",
+  TALK: "text-cream/55",
+  NETWORKING: "text-cream/55",
+  BREAK: "text-cream/40",
 };
 
 export function KindBadge({ kind }: { kind: string }) {
   const label = SESSION_KIND_LABELS[kind as SessionKind] ?? kind;
   return (
     <span
-      className={`inline-block rounded px-2 py-0.5 text-[11px] font-semibold uppercase tracking-wide ${
-        kindStyles[kind] ?? "bg-slate-100 text-slate-600"
+      className={`mono inline-block text-[10px] font-medium uppercase tracking-[0.18em] ${
+        kindStyles[kind] ?? "text-cream/55"
       }`}
     >
       {label}

@@ -36,7 +36,7 @@ export default async function TicketsPage() {
       <main className="flex-1">
         <div className="mx-auto max-w-5xl px-5 py-12">
           <header className="max-w-2xl">
-            <p className="text-sm font-semibold uppercase tracking-wide text-brand">
+            <p className="mono text-[11px] font-medium uppercase tracking-[0.22em] text-indigo">
               {event.city} · {formatDateRange(event.startDate, event.endDate)}
             </p>
             <h1 className="mt-1 text-3xl font-bold tracking-tight sm:text-4xl">
@@ -57,7 +57,7 @@ export default async function TicketsPage() {
               return (
                 <div
                   key={ticket.id}
-                  className="flex flex-col rounded-2xl border border-black/10 bg-white p-7 shadow-sm"
+                  className="flex flex-col rounded-2xl border border-cream/10 bg-surface p-7 "
                 >
                   <div className="flex items-start justify-between">
                     <h2 className="text-xl font-semibold">{ticket.name}</h2>
@@ -78,8 +78,8 @@ export default async function TicketsPage() {
                     aria-disabled={soldOut}
                     className={`mt-5 rounded-full px-5 py-3 text-center text-sm font-semibold transition-colors ${
                       soldOut
-                        ? "cursor-not-allowed bg-black/5 text-ink/40"
-                        : "bg-ink text-white hover:bg-brand"
+                        ? "cursor-not-allowed bg-cream/5 text-ink/40"
+                        : "bg-indigo text-cream hover:bg-brand"
                     }`}
                   >
                     {soldOut ? "Sold out" : `Choose ${ticket.name}`}
