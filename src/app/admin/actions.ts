@@ -46,6 +46,10 @@ export async function updateEventAction(formData: FormData) {
       description: String(formData.get("description") || "") || null,
       city: String(formData.get("city")),
       venue: String(formData.get("venue") || "") || null,
+      format: String(formData.get("format") || "") || null,
+      expectedAttendees: String(formData.get("expectedAttendees") || "").trim()
+        ? Number(formData.get("expectedAttendees"))
+        : null,
       startDate: wallTimeToUtc(String(formData.get("startDate"))),
       endDate: wallTimeToUtc(String(formData.get("endDate"))),
       published: formData.get("published") === "on",
@@ -96,6 +100,7 @@ export async function createTrackAction(formData: FormData) {
       name,
       slug: slugify(name.replace(/^amplify\s+/i, "")),
       color: String(formData.get("color") || "#6366f1"),
+      metric: String(formData.get("metric") || "") || null,
       description: String(formData.get("description") || "") || null,
       position: count,
     },
@@ -111,6 +116,7 @@ export async function updateTrackAction(formData: FormData) {
     data: {
       name: String(formData.get("name")),
       color: String(formData.get("color")),
+      metric: String(formData.get("metric") || "") || null,
       description: String(formData.get("description") || "") || null,
     },
   });

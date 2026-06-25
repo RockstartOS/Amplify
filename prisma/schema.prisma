@@ -19,6 +19,8 @@ model Event {
   description String?
   city        String
   venue       String?
+  format      String?  // e.g. "2.5 days"
+  expectedAttendees Int?
   startDate   DateTime
   endDate     DateTime
   published   Boolean  @default(false)
@@ -57,6 +59,7 @@ model Track {
   slug        String
   color       String   @default("#6366f1")
   description String?
+  metric      String?  // e.g. "€4.5TN+ by 2035"
   position    Int      @default(0)
 
   sessions Session[]

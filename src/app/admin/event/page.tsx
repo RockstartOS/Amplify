@@ -40,6 +40,14 @@ export default async function AdminEventPage() {
             <Field label="City" name="city" defaultValue={event.city} required />
             <Field label="Tagline" name="tagline" defaultValue={event.tagline ?? ""} className="sm:col-span-2" />
             <Field label="Venue" name="venue" defaultValue={event.venue ?? ""} className="sm:col-span-2" />
+            <Field label="Format" name="format" defaultValue={event.format ?? ""} placeholder="2.5 days" />
+            <Field
+              label="Expected attendees"
+              name="expectedAttendees"
+              type="number"
+              defaultValue={event.expectedAttendees ?? ""}
+              placeholder="500"
+            />
             <Field
               label="Start"
               name="startDate"

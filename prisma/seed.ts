@@ -3,8 +3,8 @@ import { generateReference, slugify } from "../src/lib/domain";
 
 const db = new PrismaClient();
 
-// Amsterdam is CET (UTC+1) in November.
-const at = (day: number, hhmm: string) => new Date(`2026-11-${day}T${hhmm}:00+01:00`);
+// Amsterdam is CEST (UTC+2) in April.
+const at = (day: number, hhmm: string) => new Date(`2027-04-${day}T${hhmm}:00+02:00`);
 
 async function main() {
   console.log("Resetting database…");
@@ -21,15 +21,17 @@ async function main() {
   console.log("Creating event…");
   const event = await db.event.create({
     data: {
-      slug: "amsterdam-2026",
+      slug: "amsterdam-2027",
       name: "Amplify You · Amsterdam",
-      tagline: "Where investors and founders amplify what's next.",
+      tagline: "Where Europe's builders and backers close the pre-seed gap.",
       description:
-        "A 1.5-day gathering opening with Invested Day — a deep dive into capital, conviction and the state of European venture — followed by Amplify It, a morning of focused tracks where energy, food & bio, scaling and more get the spotlight.",
+        "A 2.5-day gathering of 500+ decision-makers and capital allocators from across Europe. We open on the pre-seed gap and the shift to a value-driven economy, then go deep across the four pillars of resilience — Sustainable Industries, Energy, Food & Bio, and Resilient Societies.",
       city: "Amsterdam",
       venue: "Kromhouthal, Amsterdam-Noord",
-      startDate: at(11, "09:00"),
-      endDate: at(12, "13:30"),
+      format: "2.5 days",
+      expectedAttendees: 500,
+      startDate: at(14, "09:00"),
+      endDate: at(16, "13:00"),
       published: true,
     },
   });
@@ -39,10 +41,10 @@ async function main() {
     data: {
       eventId: event.id,
       name: "Invested Day",
-      date: at(11, "00:00"),
-      theme: "Capital meets conviction",
+      date: at(14, "00:00"),
+      theme: "The Pre-Seed Gap",
       description:
-        "A full day for investors and founders: keynotes, panels and live pitches on where European venture is heading.",
+        "Why Europe's most important companies struggle to raise their first round — and how we close the gap. Keynotes, panels and live pitches.",
       position: 0,
     },
   });
@@ -50,21 +52,55 @@ async function main() {
     data: {
       eventId: event.id,
       name: "Amplify It",
-      date: at(12, "00:00"),
-      theme: "Go deeper, by track",
+      date: at(15, "00:00"),
+      theme: "The Four Pillars of Resilience",
       description:
-        "A morning of parallel tracks. Pick your domain — energy, food & bio, scaling and beyond — and build your own schedule.",
+        "Parallel tracks across the four pillars. Pick your domain and build your own schedule of deep dives with founders, operators and investors.",
       position: 1,
     },
   });
+  const valueDay = await db.eventDay.create({
+    data: {
+      eventId: event.id,
+      name: "Value Day",
+      date: at(16, "00:00"),
+      theme: "The Value-Driven Economy",
+      description:
+        "A half-day on building an economy that compounds value, not just capital — capital allocators on stage, demos, and the close.",
+      position: 2,
+    },
+  });
 
-  console.log("Creating tracks…");
+  console.log("Creating tracks (the four pillars)…");
   const trackData = [
-    { name: "Amplify Energy", color: "#f59e0b", description: "Grid, storage, climate tech and the energy transition." },
-    { name: "Amplify Food & Bio", color: "#22c55e", description: "AgriFood, biotech and the future of what we eat." },
-    { name: "Amplify Scaling", color: "#6366f1", description: "From seed to Series B — the craft of scaling a company." },
-    { name: "Amplify Health", color: "#ec4899", description: "Digital health, diagnostics and life sciences." },
-    { name: "Amplify Emerging Tech", color: "#06b6d4", description: "AI, frontier compute and deep tech." },
+    {
+      name: "Sustainable Industries",
+      color: "#8b8bf0",
+      metric: "€1.2TN+ by 2035",
+      description:
+        "A Europe that builds the world's cleanest and most competitive industries — securing strategic production, prosperity and technological leadership. Industrial electrification, sustainable materials, supply-chain resilience and AI manufacturing.",
+    },
+    {
+      name: "Energy",
+      color: "#f59e0b",
+      metric: "€4.5TN+ by 2035",
+      description:
+        "A Europe powered by abundant, clean and affordable energy — strengthening competitiveness, resilience and energy sovereignty. Grid stability, firm renewables, energy efficiency and asset realisation.",
+    },
+    {
+      name: "Food & Bio",
+      color: "#22c55e",
+      metric: "€600B+ by 2035",
+      description:
+        "A Europe nourished by regenerative food systems and a thriving bioeconomy — restoring nature, strengthening food security and improving public health. Healthy ingredients, regenerative agriculture, biosolutions and food supply.",
+    },
+    {
+      name: "Resilient Societies",
+      color: "#06b6d4",
+      metric: "€800B+ by 2035",
+      description:
+        "A Europe protected by resilient infrastructure, trusted institutions and secure digital systems — safeguarding citizens, democracy and economic stability. Digital sovereignty & cyber, water management, societal resilience and climate adaptation.",
+    },
   ];
   const tracks: Record<string, { id: string }> = {};
   for (let i = 0; i < trackData.length; i++) {
@@ -73,8 +109,9 @@ async function main() {
       data: {
         eventId: event.id,
         name: t.name,
-        slug: slugify(t.name.replace("Amplify ", "")),
+        slug: slugify(t.name),
         color: t.color,
+        metric: t.metric,
         description: t.description,
         position: i,
       },
@@ -84,14 +121,14 @@ async function main() {
 
   console.log("Creating speakers…");
   const speakerData = [
-    { name: "Lena Vermeer", title: "Managing Partner", company: "Northbound Capital", bio: "Backs European climate and energy founders at seed and Series A." },
+    { name: "Lena Vermeer", title: "Managing Partner", company: "Northbound Capital", bio: "Backs European climate and energy founders at pre-seed and seed." },
     { name: "Tomás Oliveira", title: "Founder & CEO", company: "Voltaes", bio: "Building grid-scale storage software across the EU." },
-    { name: "Priya Anand", title: "General Partner", company: "Helix Ventures", bio: "Health and bio investor, ex-operator." },
+    { name: "Priya Anand", title: "General Partner", company: "Helix Ventures", bio: "Health, bio and food-systems investor, ex-operator." },
     { name: "Daniel Roth", title: "CTO", company: "Mycelium Foods", bio: "Fermentation and alternative protein at scale." },
-    { name: "Sofia Lindqvist", title: "Partner", company: "Scale Collective", bio: "Helps Series A teams build go-to-market engines." },
-    { name: "Marcus Bauer", title: "Founder", company: "Photonic Labs", bio: "Frontier compute and photonics." },
+    { name: "Sofia Lindqvist", title: "Partner", company: "Scale Collective", bio: "Helps first-round teams build go-to-market engines." },
+    { name: "Marcus Bauer", title: "Founder", company: "Photonic Labs", bio: "Frontier compute, photonics and sustainable industry." },
     { name: "Aisha Kone", title: "Head of Platform", company: "Rockstart", bio: "Connects founders with the right capital and mentors." },
-    { name: "Erik Janssen", title: "Angel Investor", company: "—", bio: "Former founder, now early-stage angel across deep tech." },
+    { name: "Erik Janssen", title: "LP & Angel", company: "—", bio: "Capital allocator across European deep tech and sustainability." },
   ];
   const speakers: Record<string, { id: string }> = {};
   for (const s of speakerData) {
@@ -108,8 +145,10 @@ async function main() {
       )
     );
 
-  console.log("Creating Invested Day sessions…");
+  console.log("Creating Invested Day sessions (The Pre-Seed Gap)…");
   const plenary = async (
+    dayId: string,
+    day: number,
     title: string,
     kind: string,
     start: string,
@@ -119,12 +158,12 @@ async function main() {
     const s = await db.session.create({
       data: {
         eventId: event.id,
-        dayId: investedDay.id,
+        dayId,
         trackId: null,
         title,
         kind,
-        startTime: at(11, start),
-        endTime: at(11, end),
+        startTime: at(day, start),
+        endTime: at(day, end),
         room: opts.room ?? "Main Stage",
         description: opts.description,
       },
@@ -133,79 +172,67 @@ async function main() {
     return s;
   };
 
-  await plenary("Registration & coffee", "BREAK", "09:00", "09:30", { room: "Foyer" });
-  await plenary("Opening keynote: Why we amplify", "KEYNOTE", "09:30", "10:15", {
-    description: "Setting the tone for the day — conviction, capital and the founders shaping Europe.",
+  await plenary(investedDay.id, 14, "Registration & coffee", "BREAK", "09:00", "09:30", { room: "Foyer" });
+  await plenary(investedDay.id, 14, "Opening keynote: The pre-seed gap", "KEYNOTE", "09:30", "10:15", {
+    description: "Why Europe under-funds its first rounds — and what it costs the continent.",
     speakers: ["Aisha Kone"],
   });
-  await plenary("Panel: The state of European venture", "PANEL", "10:15", "11:00", {
-    description: "Three investors on where the market is, what's overhyped and where the real opportunities sit.",
+  await plenary(investedDay.id, 14, "Panel: Closing the first-round gap", "PANEL", "10:15", "11:00", {
+    description: "Three investors on the structural reasons European pre-seed is broken, and what fixes it.",
     speakers: ["Lena Vermeer", "Priya Anand", "Erik Janssen"],
   });
-  await plenary("Coffee break", "BREAK", "11:00", "11:30", { room: "Foyer" });
-  await plenary("Fireside: Building conviction before consensus", "TALK", "11:30", "12:15", {
-    description: "How great investors develop a thesis early and hold it.",
+  await plenary(investedDay.id, 14, "Coffee break", "BREAK", "11:00", "11:30", { room: "Foyer" });
+  await plenary(investedDay.id, 14, "Fireside: Building conviction before consensus", "TALK", "11:30", "12:15", {
+    description: "How great pre-seed investors develop a thesis early and hold it.",
     speakers: ["Lena Vermeer"],
   });
-  await plenary("Lunch & networking", "NETWORKING", "12:15", "13:30", { room: "Garden Hall" });
-  await plenary("Investor masterclass: Reading a cap table", "WORKSHOP", "13:30", "14:30", {
-    description: "A hands-on session on term sheets, dilution and ownership over time.",
-    room: "Workshop Room A",
-    speakers: ["Sofia Lindqvist"],
-  });
-  await plenary("Live pitches: Seed showcase", "PITCH", "14:30", "16:00", {
-    description: "Eight founders, five minutes each, live Q&A with the room.",
-  });
-  await plenary("Afternoon break", "BREAK", "16:00", "16:30", { room: "Foyer" });
-  await plenary("Closing keynote: The next decade of building", "KEYNOTE", "16:30", "17:30", {
+  await plenary(investedDay.id, 14, "Lunch & networking", "NETWORKING", "12:15", "13:30", { room: "Garden Hall" });
+  await plenary(investedDay.id, 14, "Keynote: Towards a value-driven economy", "KEYNOTE", "13:30", "14:15", {
+    description: "From extractive returns to compounding value — a reframing of what capital is for.",
     speakers: ["Marcus Bauer"],
   });
-  await plenary("Investor & founder reception", "NETWORKING", "17:30", "19:30", { room: "Rooftop" });
+  await plenary(investedDay.id, 14, "Panel: Capital allocators on value over volume", "PANEL", "14:15", "15:15", {
+    description: "LPs and GPs on backing the companies that build European resilience.",
+    speakers: ["Erik Janssen", "Sofia Lindqvist", "Priya Anand"],
+  });
+  await plenary(investedDay.id, 14, "Afternoon break", "BREAK", "15:15", "15:45", { room: "Foyer" });
+  await plenary(investedDay.id, 14, "Live pitches: Pre-seed showcase", "PITCH", "15:45", "17:15", {
+    description: "Twelve founders across the four pillars, five minutes each, live Q&A with the room.",
+  });
+  await plenary(investedDay.id, 14, "Investor & founder reception", "NETWORKING", "17:30", "19:30", { room: "Rooftop" });
 
-  console.log("Creating Amplify It track sessions…");
+  console.log("Creating Amplify It track sessions (The Four Pillars)…");
   await db.session.create({
     data: {
-      eventId: event.id,
-      dayId: amplifyItDay.id,
-      title: "Welcome coffee",
-      kind: "BREAK",
-      startTime: at(12, "09:00"),
-      endTime: at(12, "09:30"),
-      room: "Foyer",
+      eventId: event.id, dayId: amplifyItDay.id, title: "Welcome coffee",
+      kind: "BREAK", startTime: at(15, "09:00"), endTime: at(15, "09:30"), room: "Foyer",
     },
   });
 
-  // For each track: a talk (09:30), a workshop (10:30) and a panel (11:30), in parallel rooms.
   const trackProgramme: Record<string, { talk: string; workshop: string; panel: string; speakers: string[] }> = {
-    "Amplify Energy": {
+    "Sustainable Industries": {
+      talk: "Electrifying European industry",
+      workshop: "Workshop: Financing sustainable materials",
+      panel: "Panel: Supply-chain resilience as strategy",
+      speakers: ["Marcus Bauer", "Sofia Lindqvist"],
+    },
+    "Energy": {
       talk: "Scaling the grid for an electrified Europe",
       workshop: "Workshop: Modelling energy storage economics",
-      panel: "Panel: Financing the energy transition",
+      panel: "Panel: Financing firm renewables",
       speakers: ["Tomás Oliveira", "Lena Vermeer"],
     },
-    "Amplify Food & Bio": {
-      talk: "The protein transition is a systems problem",
-      workshop: "Workshop: Scaling fermentation",
-      panel: "Panel: Investing in AgriFood",
+    "Food & Bio": {
+      talk: "Regenerative food systems at scale",
+      workshop: "Workshop: Scaling biosolutions",
+      panel: "Panel: Investing in the bioeconomy",
       speakers: ["Daniel Roth", "Priya Anand"],
     },
-    "Amplify Scaling": {
-      talk: "From seed to Series B without breaking",
-      workshop: "Workshop: Building a GTM engine",
-      panel: "Panel: Hiring your first leaders",
-      speakers: ["Sofia Lindqvist", "Aisha Kone"],
-    },
-    "Amplify Health": {
-      talk: "AI in diagnostics: hype vs. reality",
-      workshop: "Workshop: Navigating health regulation",
-      panel: "Panel: What health investors look for",
-      speakers: ["Priya Anand"],
-    },
-    "Amplify Emerging Tech": {
-      talk: "Frontier compute and the photonics bet",
-      workshop: "Workshop: Deep tech fundraising",
-      panel: "Panel: Backing the technically improbable",
-      speakers: ["Marcus Bauer", "Erik Janssen"],
+    "Resilient Societies": {
+      talk: "Digital sovereignty and the resilient state",
+      workshop: "Workshop: Building for climate adaptation",
+      panel: "Panel: Backing trust, water and cyber",
+      speakers: ["Aisha Kone", "Erik Janssen"],
     },
   };
 
@@ -219,9 +246,9 @@ async function main() {
       data: {
         eventId: event.id, dayId: amplifyItDay.id, trackId,
         title: p.talk, kind: "TALK",
-        startTime: at(12, "09:30"), endTime: at(12, "10:15"),
+        startTime: at(15, "09:30"), endTime: at(15, "10:15"),
         room: roomName, capacity: 80,
-        description: `A ${trackName.replace("Amplify ", "").toLowerCase()} deep dive to open the track.`,
+        description: `A ${trackName.toLowerCase()} deep dive to open the track.`,
       },
     });
     await speak(talk.id, p.speakers.slice(0, 1));
@@ -230,7 +257,7 @@ async function main() {
       data: {
         eventId: event.id, dayId: amplifyItDay.id, trackId,
         title: p.workshop, kind: "WORKSHOP",
-        startTime: at(12, "10:30"), endTime: at(12, "11:15"),
+        startTime: at(15, "10:30"), endTime: at(15, "11:15"),
         room: roomName, capacity: 40,
       },
     });
@@ -239,7 +266,7 @@ async function main() {
       data: {
         eventId: event.id, dayId: amplifyItDay.id, trackId,
         title: p.panel, kind: "PANEL",
-        startTime: at(12, "11:30"), endTime: at(12, "12:15"),
+        startTime: at(15, "11:30"), endTime: at(15, "12:15"),
         room: roomName, capacity: 80,
       },
     });
@@ -248,15 +275,25 @@ async function main() {
 
   await db.session.create({
     data: {
-      eventId: event.id,
-      dayId: amplifyItDay.id,
-      title: "Closing lunch & demo floor",
-      kind: "NETWORKING",
-      startTime: at(12, "12:30"),
-      endTime: at(12, "13:30"),
-      room: "Garden Hall",
-      description: "Wrap up across tracks, meet the cohort and see the demos.",
+      eventId: event.id, dayId: amplifyItDay.id, title: "Closing lunch & demo floor",
+      kind: "NETWORKING", startTime: at(15, "12:30"), endTime: at(15, "13:30"), room: "Garden Hall",
+      description: "Wrap up across the four pillars, meet the cohort and see the demos.",
     },
+  });
+
+  console.log("Creating Value Day sessions (The Value-Driven Economy)…");
+  await plenary(valueDay.id, 16, "Welcome coffee", "BREAK", "09:00", "09:30", { room: "Foyer" });
+  await plenary(valueDay.id, 16, "Keynote: The decade of resilience", "KEYNOTE", "09:30", "10:15", {
+    description: "What a value-driven European economy looks like by 2035.",
+    speakers: ["Aisha Kone"],
+  });
+  await plenary(valueDay.id, 16, "Panel: Allocators on the value-driven economy", "PANEL", "10:15", "11:15", {
+    description: "Capital allocators on moving from volume to value across the four pillars.",
+    speakers: ["Erik Janssen", "Lena Vermeer"],
+  });
+  await plenary(valueDay.id, 16, "Demo finale & close", "NETWORKING", "11:30", "13:00", {
+    description: "The strongest pre-seed teams demo live, then we close the 2.5 days together.",
+    room: "Main Stage",
   });
 
   console.log("Creating ticket types…");
@@ -264,17 +301,17 @@ async function main() {
     data: [
       {
         eventId: event.id, name: "Investor Pass", position: 0,
-        description: "Full 1.5-day access for investors, including the reception. Invite-led — verified on registration.",
-        priceCents: 0, currency: "EUR", quantity: 150, active: true,
+        description: "Full 2.5-day access for investors and capital allocators, including the reception. Invite-led — verified on registration.",
+        priceCents: 0, currency: "EUR", quantity: 200, active: true,
       },
       {
         eventId: event.id, name: "Founder Pass", position: 1,
-        description: "Full access for founders building a company. Includes both days and all tracks.",
+        description: "Full access for founders building across the four pillars. Both plenary days and all tracks.",
         priceCents: 29500, currency: "EUR", quantity: 250, active: true,
       },
       {
         eventId: event.id, name: "Full Access", position: 2,
-        description: "General admission to everything across both days.",
+        description: "General admission to everything across all 2.5 days.",
         priceCents: 49500, currency: "EUR", quantity: 300, active: true,
       },
       {

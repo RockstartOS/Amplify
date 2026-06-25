@@ -85,9 +85,12 @@ export default async function HomePage() {
 
           <dl className="mt-16 grid max-w-2xl grid-cols-2 gap-6 sm:grid-cols-4">
             {[
-              { k: "Format", v: "1.5 days" },
-              { k: "Days", v: `${days.length}` },
-              { k: "Tracks", v: `${tracks.length}` },
+              { k: "Format", v: event.format ?? `${days.length} days` },
+              {
+                k: "Participants",
+                v: event.expectedAttendees ? `${event.expectedAttendees}+` : `${days.length}`,
+              },
+              { k: "Pillars", v: `${tracks.length}` },
               { k: "City", v: event.city },
             ].map((s) => (
               <div key={s.k}>
@@ -109,9 +112,18 @@ export default async function HomePage() {
               The format
             </p>
             <h2 className="mt-2 text-3xl font-bold tracking-tight sm:text-4xl">
-              One and a half days, two distinct moods.
+              Two and a half days, framed by two questions.
             </h2>
             <p className="mt-4 text-ink/70">{event.description}</p>
+            <p className="mt-4 text-ink/70">
+              We open on{" "}
+              <span className="font-semibold text-cream">the pre-seed gap</span>,
+              go deep across the four pillars of resilience, and close on{" "}
+              <span className="font-semibold text-cream">
+                the value-driven economy
+              </span>
+              .
+            </p>
           </div>
 
           <div className="mt-10 grid gap-6 md:grid-cols-2">
@@ -147,14 +159,15 @@ export default async function HomePage() {
             <div className="flex flex-wrap items-end justify-between gap-4">
               <div className="max-w-2xl">
                 <p className="mono text-[11px] font-medium uppercase tracking-[0.22em] text-indigo">
-                  Amplify It tracks
+                  Amplify Europe · Thesis
                 </p>
                 <h2 className="mt-2 text-3xl font-bold tracking-tight sm:text-4xl">
-                  Pick your domain.
+                  The four pillars of resilience.
                 </h2>
                 <p className="mt-4 text-ink/70">
-                  On the Amplify It morning, the programme splits into focused
-                  tracks. New tracks can be added any time from the backend.
+                  On the Amplify It day the programme splits into focused tracks,
+                  one per pillar — sized to the European markets they unlock by
+                  2035. New pillars can be added any time from the backend.
                 </p>
               </div>
               <Link
@@ -165,7 +178,7 @@ export default async function HomePage() {
               </Link>
             </div>
 
-            <div className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+            <div className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
               {tracks.map((track) => (
                 <div
                   key={track.id}
@@ -179,7 +192,12 @@ export default async function HomePage() {
                     />
                     <h3 className="text-lg font-semibold">{track.name}</h3>
                   </div>
-                  <p className="mt-2 text-sm text-ink/70">{track.description}</p>
+                  {track.metric && (
+                    <span className="mono mt-3 inline-block rounded-full border border-indigo/30 bg-indigo/10 px-2.5 py-0.5 text-[10px] font-medium uppercase tracking-[0.16em] text-indigo-soft">
+                      {track.metric}
+                    </span>
+                  )}
+                  <p className="mt-3 text-sm text-ink/70">{track.description}</p>
                   <p className="mt-4 text-xs font-medium uppercase tracking-wide text-ink/40">
                     {track._count.sessions} sessions
                   </p>

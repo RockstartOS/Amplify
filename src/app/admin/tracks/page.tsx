@@ -59,6 +59,12 @@ export default async function AdminTracksPage() {
                     {track._count.sessions} sessions
                   </span>
                 </div>
+                <Field
+                  label="Market metric"
+                  name="metric"
+                  defaultValue={track.metric ?? ""}
+                  placeholder="€4.5TN+ by 2035"
+                />
                 <TextareaField
                   label="Description"
                   name="description"
@@ -100,6 +106,7 @@ export default async function AdminTracksPage() {
                 ))}
               </div>
             </label>
+            <Field label="Market metric" name="metric" placeholder="€600B+ by 2035" />
             <TextareaField label="Description" name="description" rows={2} />
             <SubmitButton>Add track</SubmitButton>
           </form>
