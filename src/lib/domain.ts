@@ -1,4 +1,4 @@
-// Shared domain constants, types and formatting helpers for Amplify You.
+// Shared domain constants, types and formatting helpers for Amplify Europe.
 
 export const TIMEZONE = "Europe/Amsterdam";
 

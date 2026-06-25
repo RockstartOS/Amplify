@@ -1,4 +1,4 @@
-// Amplify You — event platform data model.
+// Amplify Europe — event platform data model.
 // SQLite for zero-config local/dev runs; swap `provider`/`url` for Postgres in prod.
 
 generator client {
@@ -10,7 +10,7 @@ datasource db {
   url      = "file:./dev.db"
 }
 
-/// A single edition of an Amplify You event (e.g. "Amplify You · Amsterdam").
+/// A single edition of an Amplify Europe event (e.g. "Amplify Europe · Amsterdam").
 model Event {
   id          String   @id @default(cuid())
   slug        String   @unique

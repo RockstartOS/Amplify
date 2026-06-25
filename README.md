@@ -1,6 +1,6 @@
-# Amplify You
+# Amplify Europe
 
-The event platform for the **Amplify You** series — a travelling 1.5-day event
+The event platform for the **Amplify Europe** series — a travelling 2.5-day event
 that opens with **Invested Day** and continues with **Amplify It** tracks. The
 first edition lands in **Amsterdam**.
 

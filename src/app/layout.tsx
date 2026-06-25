@@ -22,11 +22,11 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: {
-    default: "Amplify You · Amsterdam",
-    template: "%s · Amplify You",
+    default: "Amplify Europe · Amsterdam",
+    template: "%s · Amplify Europe",
   },
   description:
-    "Amplify You — where investors and founders amplify what's next. A 1.5-day event in Amsterdam opening with Invested Day and continuing with Amplify It tracks.",
+    "Amplify Europe — where investors and founders amplify what's next. A 2.5-day event in Amsterdam opening with Invested Day and continuing with Amplify It tracks.",
 };
 
 export default function RootLayout({

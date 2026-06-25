@@ -6,7 +6,7 @@ export function SiteFooter() {
       <div className="mx-auto grid max-w-6xl gap-8 px-5 py-14 sm:grid-cols-2 md:grid-cols-4">
         <div className="sm:col-span-2 md:col-span-1">
           <div className="font-display text-lg font-bold text-cream">
-            Amplify <span className="text-indigo">You</span>
+            Amplify <span className="text-indigo">Europe</span>
           </div>
           <p className="mt-3 max-w-xs text-sm">
             Where investors and founders amplify what&apos;s next. The first
@@ -36,15 +36,15 @@ export function SiteFooter() {
         <div>
           <h3 className="eyebrow">Series</h3>
           <p className="mt-4 text-sm">
-            Amplify You is a travelling series. Amsterdam first — more cities to
+            Amplify Europe is a travelling series. Amsterdam first — more cities to
             follow.
           </p>
         </div>
       </div>
       <div className="border-t border-cream/10">
         <div className="mx-auto flex max-w-6xl flex-col items-center justify-between gap-2 px-5 py-5 text-xs text-cream/40 sm:flex-row">
-          <span>© {new Date().getFullYear()} Amplify You. All rights reserved.</span>
-          <span className="mono tracking-[0.2em] uppercase">Amplify You · Amsterdam 2026</span>
+          <span>© {new Date().getFullYear()} Amplify Europe. All rights reserved.</span>
+          <span className="mono tracking-[0.2em] uppercase">Amplify Europe · Amsterdam 2027</span>
         </div>
       </div>
     </footer>

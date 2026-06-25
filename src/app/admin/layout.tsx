@@ -31,7 +31,7 @@ export default async function AdminLayout({
             <span className="grid h-7 w-7 place-items-center rounded-md bg-brand text-sm font-bold text-cream">
               A
             </span>
-            Amplify You · Organiser
+            Amplify Europe · Organiser
           </div>
           <h1 className="mt-6 text-xl font-bold">Sign in to the backend</h1>
           <p className="mt-1 text-sm text-ink/55">

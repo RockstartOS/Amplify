@@ -22,7 +22,7 @@ async function main() {
   const event = await db.event.create({
     data: {
       slug: "amsterdam-2027",
-      name: "Amplify You · Amsterdam",
+      name: "Amplify Europe · Amsterdam",
       tagline: "Where Europe's builders and backers close the pre-seed gap.",
       description:
         "A 2.5-day gathering of 500+ decision-makers and capital allocators from across Europe. We open on the pre-seed gap and the shift to a value-driven economy, then go deep across the four pillars of resilience — Sustainable Industries, Energy, Food & Bio, and Resilient Societies.",

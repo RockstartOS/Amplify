@@ -22,7 +22,7 @@ export function SiteHeader({ transparent = false }: { transparent?: boolean }) {
           href="/"
           className="font-display text-lg font-bold tracking-tight text-cream"
         >
-          Amplify <span className="text-indigo">You</span>
+          Amplify <span className="text-indigo">Europe</span>
         </Link>
 
         <nav className="hidden items-center gap-9 md:flex">

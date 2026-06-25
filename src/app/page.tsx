@@ -23,7 +23,7 @@ export default async function HomePage() {
         <main className="mx-auto flex max-w-3xl flex-1 flex-col items-center justify-center px-5 py-32 text-center">
           <h1 className="text-3xl font-bold">No event published yet</h1>
           <p className="mt-3 text-ink/60">
-            An organiser can publish the next Amplify You edition from the{" "}
+            An organiser can publish the next Amplify Europe edition from the{" "}
             <Link href="/admin" className="text-brand underline">
               admin backend
             </Link>
@@ -57,7 +57,7 @@ export default async function HomePage() {
           </div>
 
           <h1 className="mt-6 max-w-3xl text-balance text-5xl font-bold leading-[1.05] tracking-tight sm:text-6xl">
-            Amplify <span className="text-accent">You</span>
+            Amplify <span className="text-accent">Europe</span>
           </h1>
           <p className="mt-5 max-w-2xl text-balance text-lg text-cream/80 sm:text-xl">
             {event.tagline}
