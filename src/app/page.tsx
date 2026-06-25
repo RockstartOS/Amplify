@@ -90,7 +90,7 @@ export default async function HomePage() {
                 k: "Participants",
                 v: event.expectedAttendees ? `${event.expectedAttendees}+` : `${days.length}`,
               },
-              { k: "Pillars", v: `${tracks.length}` },
+              { k: "Pillars", v: `${tracks.filter((t) => t.metric).length}` },
               { k: "City", v: event.city },
             ].map((s) => (
               <div key={s.k}>
@@ -162,12 +162,12 @@ export default async function HomePage() {
                   Amplify Europe · Thesis
                 </p>
                 <h2 className="mt-2 text-3xl font-bold tracking-tight sm:text-4xl">
-                  The four pillars of resilience.
+                  Four pillars, two questions.
                 </h2>
                 <p className="mt-4 text-ink/70">
-                  On the Amplify It day the programme splits into focused tracks,
-                  one per pillar — sized to the European markets they unlock by
-                  2035. New pillars can be added any time from the backend.
+                  Four pillars of resilience — each sized to the European market
+                  it unlocks by 2035 — framed by two cross-cutting questions we
+                  explore together. Every theme can be edited from the backend.
                 </p>
               </div>
               <Link
@@ -178,7 +178,7 @@ export default async function HomePage() {
               </Link>
             </div>
 
-            <div className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+            <div className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
               {tracks.map((track) => (
                 <div
                   key={track.id}

@@ -119,6 +119,39 @@ async function main() {
     tracks[t.name] = track;
   }
 
+  // The two cross-cutting questions that frame the event — shown as equal
+  // theme cards alongside the four pillars (no market metric).
+  const questionData = [
+    {
+      name: "The Pre-Seed Gap",
+      color: "#7a5dff",
+      description:
+        "Why Europe's most important companies struggle to raise their first round — and how patient, conviction-led capital closes the gap.",
+    },
+    {
+      name: "The Value-Driven Economy",
+      color: "#9a83ff",
+      description:
+        "Moving from extractive returns to compounding value — a reframing of what capital is for, and who it should serve.",
+    },
+  ];
+  for (let i = 0; i < questionData.length; i++) {
+    const q = questionData[i];
+    const track = await db.track.create({
+      data: {
+        eventId: event.id,
+        name: q.name,
+        slug: slugify(q.name),
+        color: q.color,
+        description: q.description,
+        position: trackData.length + i,
+      },
+    });
+    tracks[q.name] = track;
+  }
+  const preSeedGapId = tracks["The Pre-Seed Gap"].id;
+  const valueEconomyId = tracks["The Value-Driven Economy"].id;
+
   console.log("Creating speakers…");
   const speakerData = [
     { name: "Lena Vermeer", title: "Managing Partner", company: "Northbound Capital", bio: "Backs European climate and energy founders at pre-seed and seed." },
@@ -153,13 +186,13 @@ async function main() {
     kind: string,
     start: string,
     end: string,
-    opts: { description?: string; room?: string; speakers?: string[] } = {}
+    opts: { description?: string; room?: string; speakers?: string[]; trackId?: string } = {}
   ) => {
     const s = await db.session.create({
       data: {
         eventId: event.id,
         dayId,
-        trackId: null,
+        trackId: opts.trackId ?? null,
         title,
         kind,
         startTime: at(day, start),
@@ -175,29 +208,30 @@ async function main() {
   await plenary(investedDay.id, 14, "Registration & coffee", "BREAK", "09:00", "09:30", { room: "Foyer" });
   await plenary(investedDay.id, 14, "Opening keynote: The pre-seed gap", "KEYNOTE", "09:30", "10:15", {
     description: "Why Europe under-funds its first rounds — and what it costs the continent.",
-    speakers: ["Aisha Kone"],
+    speakers: ["Aisha Kone"], trackId: preSeedGapId,
   });
   await plenary(investedDay.id, 14, "Panel: Closing the first-round gap", "PANEL", "10:15", "11:00", {
     description: "Three investors on the structural reasons European pre-seed is broken, and what fixes it.",
-    speakers: ["Lena Vermeer", "Priya Anand", "Erik Janssen"],
+    speakers: ["Lena Vermeer", "Priya Anand", "Erik Janssen"], trackId: preSeedGapId,
   });
   await plenary(investedDay.id, 14, "Coffee break", "BREAK", "11:00", "11:30", { room: "Foyer" });
   await plenary(investedDay.id, 14, "Fireside: Building conviction before consensus", "TALK", "11:30", "12:15", {
     description: "How great pre-seed investors develop a thesis early and hold it.",
-    speakers: ["Lena Vermeer"],
+    speakers: ["Lena Vermeer"], trackId: preSeedGapId,
   });
   await plenary(investedDay.id, 14, "Lunch & networking", "NETWORKING", "12:15", "13:30", { room: "Garden Hall" });
   await plenary(investedDay.id, 14, "Keynote: Towards a value-driven economy", "KEYNOTE", "13:30", "14:15", {
     description: "From extractive returns to compounding value — a reframing of what capital is for.",
-    speakers: ["Marcus Bauer"],
+    speakers: ["Marcus Bauer"], trackId: valueEconomyId,
   });
   await plenary(investedDay.id, 14, "Panel: Capital allocators on value over volume", "PANEL", "14:15", "15:15", {
     description: "LPs and GPs on backing the companies that build European resilience.",
-    speakers: ["Erik Janssen", "Sofia Lindqvist", "Priya Anand"],
+    speakers: ["Erik Janssen", "Sofia Lindqvist", "Priya Anand"], trackId: valueEconomyId,
   });
   await plenary(investedDay.id, 14, "Afternoon break", "BREAK", "15:15", "15:45", { room: "Foyer" });
   await plenary(investedDay.id, 14, "Live pitches: Pre-seed showcase", "PITCH", "15:45", "17:15", {
     description: "Twelve founders across the four pillars, five minutes each, live Q&A with the room.",
+    trackId: preSeedGapId,
   });
   await plenary(investedDay.id, 14, "Investor & founder reception", "NETWORKING", "17:30", "19:30", { room: "Rooftop" });
 
@@ -285,11 +319,11 @@ async function main() {
   await plenary(valueDay.id, 16, "Welcome coffee", "BREAK", "09:00", "09:30", { room: "Foyer" });
   await plenary(valueDay.id, 16, "Keynote: The decade of resilience", "KEYNOTE", "09:30", "10:15", {
     description: "What a value-driven European economy looks like by 2035.",
-    speakers: ["Aisha Kone"],
+    speakers: ["Aisha Kone"], trackId: valueEconomyId,
   });
   await plenary(valueDay.id, 16, "Panel: Allocators on the value-driven economy", "PANEL", "10:15", "11:15", {
     description: "Capital allocators on moving from volume to value across the four pillars.",
-    speakers: ["Erik Janssen", "Lena Vermeer"],
+    speakers: ["Erik Janssen", "Lena Vermeer"], trackId: valueEconomyId,
   });
   await plenary(valueDay.id, 16, "Demo finale & close", "NETWORKING", "11:30", "13:00", {
     description: "The strongest pre-seed teams demo live, then we close the 2.5 days together.",
