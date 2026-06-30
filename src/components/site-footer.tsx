@@ -28,7 +28,9 @@ export function SiteFooter() {
           <h3 className="eyebrow">Attendees</h3>
           <ul className="mt-4 space-y-2 text-sm">
             <li><Link href="/register" className="transition-colors hover:text-cream">Register</Link></li>
-            <li><Link href="/agenda" className="transition-colors hover:text-cream">My agenda</Link></li>
+            <li><Link href="/login" className="transition-colors hover:text-cream">Log in</Link></li>
+            <li><Link href="/agenda" className="transition-colors hover:text-cream">My schedule</Link></li>
+            <li><Link href="/network" className="transition-colors hover:text-cream">Network</Link></li>
             <li><Link href="/admin" className="transition-colors hover:text-cream">Organiser login</Link></li>
           </ul>
         </div>

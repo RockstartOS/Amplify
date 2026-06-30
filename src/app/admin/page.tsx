@@ -31,8 +31,8 @@ export default async function AdminDashboard() {
   const totalRevenue = revenue.reduce((sum, r) => sum + r.ticketType.priceCents, 0);
 
   const stats = [
-    { label: "Registrations", value: registrations, href: "/admin/registrations" },
-    { label: "Revenue", value: formatMoney(totalRevenue), href: "/admin/registrations" },
+    { label: "Participants", value: registrations, href: "/admin/participants" },
+    { label: "Revenue", value: formatMoney(totalRevenue), href: "/admin/participants" },
     { label: "Sessions", value: sessions, href: "/admin/sessions" },
     { label: "Tracks", value: tracks, href: "/admin/tracks" },
     { label: "Ticket types", value: tickets, href: "/admin/tickets" },

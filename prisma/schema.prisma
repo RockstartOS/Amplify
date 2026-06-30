@@ -137,7 +137,7 @@ model TicketType {
   @@index([eventId])
 }
 
-/// An attendee sign-up / ticket purchase.
+/// An attendee account / ticket purchase. Doubles as the login identity.
 model Registration {
   id           String     @id @default(cuid())
   reference    String     @unique
@@ -152,12 +152,37 @@ model Registration {
   role         String?
   /// One of: PENDING, CONFIRMED, CANCELLED
   status       String     @default("CONFIRMED")
+  passwordHash String?
+  /// Networking profile
+  headline        String?
+  bio             String?
+  interests       String?
+  networkingOptIn Boolean  @default(true)
   createdAt    DateTime   @default(now())
 
-  agenda AgendaItem[]
+  agenda              AgendaItem[]
+  connectionsSent     Connection[] @relation("ConnectionRequester")
+  connectionsReceived Connection[] @relation("ConnectionAddressee")
 
+  @@unique([eventId, email])
   @@index([eventId])
   @@index([email])
+}
+
+/// A networking connection between two participants.
+model Connection {
+  id          String   @id @default(cuid())
+  requesterId String
+  requester   Registration @relation("ConnectionRequester", fields: [requesterId], references: [id], onDelete: Cascade)
+  addresseeId String
+  addressee   Registration @relation("ConnectionAddressee", fields: [addresseeId], references: [id], onDelete: Cascade)
+  /// One of: PENDING, ACCEPTED, DECLINED
+  status      String   @default("PENDING")
+  message     String?
+  createdAt   DateTime @default(now())
+
+  @@unique([requesterId, addresseeId])
+  @@index([addresseeId])
 }
 
 /// A session an attendee has added to their personal agenda ("find your slot").

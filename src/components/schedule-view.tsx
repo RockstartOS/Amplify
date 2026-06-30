@@ -29,9 +29,9 @@ function AgendaButton({
   if (!isLinked) {
     return (
       <Link
-        href="/agenda"
+        href="/login"
         className="shrink-0 rounded-full border border-cream/15 px-3 py-1.5 text-xs font-semibold text-ink/60 transition-colors hover:bg-paper"
-        title="Sign in with your reference to build an agenda"
+        title="Log in to build your schedule"
       >
         + Save
       </Link>

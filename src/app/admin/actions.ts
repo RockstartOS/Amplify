@@ -272,7 +272,7 @@ export async function deleteTicketAction(formData: FormData) {
 }
 
 // ---------------------------------------------------------------------------
-// Registrations
+// Participants (registrations)
 // ---------------------------------------------------------------------------
 
 export async function updateRegistrationStatusAction(formData: FormData) {
@@ -281,11 +281,30 @@ export async function updateRegistrationStatusAction(formData: FormData) {
     data: { status: String(formData.get("status")) },
   });
   revalidateAll();
-  redirect("/admin/registrations");
+  redirect("/admin/participants");
+}
+
+export async function updateParticipantAction(formData: FormData) {
+  const id = String(formData.get("id"));
+  await db.registration.update({
+    where: { id },
+    data: {
+      firstName: String(formData.get("firstName") || "").trim() || undefined,
+      lastName: String(formData.get("lastName") || "").trim() || undefined,
+      email: String(formData.get("email") || "").trim().toLowerCase() || undefined,
+      company: String(formData.get("company") || "") || null,
+      role: String(formData.get("role") || "") || null,
+      headline: String(formData.get("headline") || "") || null,
+      status: String(formData.get("status") || "CONFIRMED"),
+      networkingOptIn: formData.get("networkingOptIn") === "on",
+    },
+  });
+  revalidateAll();
+  redirect(`/admin/participants/${id}`);
 }
 
 export async function deleteRegistrationAction(formData: FormData) {
   await db.registration.delete({ where: { id: String(formData.get("id")) } });
   revalidateAll();
-  redirect("/admin/registrations");
+  redirect("/admin/participants");
 }

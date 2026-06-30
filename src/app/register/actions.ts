@@ -3,7 +3,7 @@
 import { redirect } from "next/navigation";
 import { db } from "@/lib/db";
 import { generateReference } from "@/lib/domain";
-import { setAttendeeReference } from "@/lib/auth";
+import { hashPassword, startAttendeeSession } from "@/lib/attendee-auth";
 
 export type RegisterState = { error?: string };
 
@@ -13,9 +13,10 @@ export async function registerAction(
 ): Promise<RegisterState> {
   const firstName = String(formData.get("firstName") ?? "").trim();
   const lastName = String(formData.get("lastName") ?? "").trim();
-  const email = String(formData.get("email") ?? "").trim();
+  const email = String(formData.get("email") ?? "").trim().toLowerCase();
   const company = String(formData.get("company") ?? "").trim();
   const role = String(formData.get("role") ?? "").trim();
+  const password = String(formData.get("password") ?? "");
   const ticketTypeId = String(formData.get("ticketTypeId") ?? "");
 
   if (!firstName || !lastName || !email) {
@@ -23,6 +24,9 @@ export async function registerAction(
   }
   if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) {
     return { error: "Please enter a valid email address." };
+  }
+  if (password.length < 6) {
+    return { error: "Please choose a password of at least 6 characters." };
   }
   if (!ticketTypeId) {
     return { error: "Please choose a ticket type." };
@@ -39,8 +43,17 @@ export async function registerAction(
     return { error: `${ticket.name} is sold out. Please choose another pass.` };
   }
 
+  // One account per email per event.
+  const existing = await db.registration.findFirst({
+    where: { eventId: ticket.eventId, email },
+    select: { id: true },
+  });
+  if (existing) {
+    return { error: "An account with that email already exists. Please log in instead." };
+  }
+
   const reference = generateReference();
-  await db.registration.create({
+  const registration = await db.registration.create({
     data: {
       reference,
       eventId: ticket.eventId,
@@ -50,12 +63,13 @@ export async function registerAction(
       email,
       company: company || null,
       role: role || null,
+      passwordHash: hashPassword(password),
       status: "CONFIRMED",
     },
   });
 
-  // Remember the attendee so they can build an agenda straight away.
-  await setAttendeeReference(reference);
+  // Log the attendee in straight away.
+  await startAttendeeSession(registration.id);
 
   redirect(`/register/success?ref=${reference}`);
 }

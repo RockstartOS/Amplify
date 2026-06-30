@@ -1,14 +1,17 @@
 import Link from "next/link";
+import { getAttendeeId } from "@/lib/attendee-auth";
 
 const navItems = [
   { href: "/#about", label: "About" },
   { href: "/schedule", label: "Schedule" },
   { href: "/#tracks", label: "Tracks" },
   { href: "/tickets", label: "Tickets" },
-  { href: "/agenda", label: "My agenda" },
+  { href: "/network", label: "Network" },
 ];
 
-export function SiteHeader({ transparent = false }: { transparent?: boolean }) {
+export async function SiteHeader({ transparent = false }: { transparent?: boolean }) {
+  const loggedIn = Boolean(await getAttendeeId());
+
   return (
     <header
       className={
@@ -37,12 +40,29 @@ export function SiteHeader({ transparent = false }: { transparent?: boolean }) {
           ))}
         </nav>
 
-        <Link
-          href="/register"
-          className="rounded-full bg-indigo px-4 py-2 text-sm font-semibold text-cream transition-colors hover:bg-indigo-soft"
-        >
-          Get tickets
-        </Link>
+        <div className="flex items-center gap-3">
+          {loggedIn ? (
+            <Link
+              href="/account"
+              className="mono text-[10px] font-medium uppercase tracking-[0.22em] text-cream/50 transition-colors hover:text-cream"
+            >
+              Account
+            </Link>
+          ) : (
+            <Link
+              href="/login"
+              className="mono hidden text-[10px] font-medium uppercase tracking-[0.22em] text-cream/50 transition-colors hover:text-cream sm:block"
+            >
+              Log in
+            </Link>
+          )}
+          <Link
+            href="/register"
+            className="rounded-full bg-indigo px-4 py-2 text-sm font-semibold text-cream transition-colors hover:bg-indigo-soft"
+          >
+            Get tickets
+          </Link>
+        </div>
       </div>
     </header>
   );

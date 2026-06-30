@@ -42,7 +42,8 @@ export default async function SuccessPage({
               {registration.reference}
             </p>
             <p className="mt-2 text-xs text-ink/50">
-              Keep this to access your agenda and check in on the day.
+              You&apos;re logged in. Use your email and password next time to
+              manage your schedule and network.
             </p>
           </div>
 
@@ -59,13 +60,13 @@ export default async function SuccessPage({
               href="/schedule"
               className="rounded-full bg-accent px-6 py-3 font-semibold text-ink transition-transform hover:scale-[1.03]"
             >
-              Build my agenda
+              Build my schedule
             </Link>
             <Link
               href="/agenda"
               className="rounded-full border border-cream/15 px-6 py-3 font-semibold transition-colors hover:bg-paper"
             >
-              View my agenda
+              My schedule
             </Link>
           </div>
         </div>

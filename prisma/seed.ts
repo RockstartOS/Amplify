@@ -1,7 +1,16 @@
 import { PrismaClient } from "@prisma/client";
+import { scryptSync, randomBytes } from "node:crypto";
 import { generateReference, slugify } from "../src/lib/domain";
 
 const db = new PrismaClient();
+
+// Mirror of hashPassword() in src/lib/attendee-auth.ts (kept inline so the seed
+// doesn't import next/headers).
+function hashPassword(password: string): string {
+  const salt = randomBytes(16).toString("hex");
+  const hash = scryptSync(password, salt, 64).toString("hex");
+  return `${salt}:${hash}`;
+}
 
 // Amsterdam is CEST (UTC+2) in April.
 const at = (day: number, hhmm: string) => new Date(`2027-04-${day}T${hhmm}:00+02:00`);
@@ -356,23 +365,57 @@ async function main() {
     ],
   });
 
-  console.log("Creating a sample registration…");
-  const founderPass = await db.ticketType.findFirst({ where: { eventId: event.id, name: "Founder Pass" } });
-  if (founderPass) {
-    await db.registration.create({
+  console.log("Creating sample participants (password: amplify)…");
+  const ticketByName = Object.fromEntries(
+    (await db.ticketType.findMany({ where: { eventId: event.id } })).map((t) => [t.name, t.id])
+  );
+  const pw = hashPassword("amplify");
+  const participantData = [
+    { firstName: "Sam", lastName: "Rivera", email: "sam@example.com", company: "Acme Climate", role: "Founder", ticket: "Founder Pass", headline: "Building grid-scale carbon removal", interests: "Energy, Climate, Hardware" },
+    { firstName: "Nadia", lastName: "Haddad", email: "nadia@example.com", company: "Verdigris VC", role: "Investor", ticket: "Investor Pass", headline: "Pre-seed in food & bio", interests: "Food & Bio, Pre-seed" },
+    { firstName: "Joost", lastName: "Bakker", email: "joost@example.com", company: "Polder Energy", role: "Founder", ticket: "Founder Pass", headline: "Firm renewables for the Dutch grid", interests: "Energy, Grid" },
+    { firstName: "Mara", lastName: "Costa", email: "mara@example.com", company: "Continuum Capital", role: "Capital allocator", ticket: "Investor Pass", headline: "LP backing European resilience", interests: "LP, Value-driven economy" },
+    { firstName: "Tobias", lastName: "Krause", email: "tobias@example.com", company: "Cellfield", role: "Founder", ticket: "Full Access", headline: "Regenerative agriculture data", interests: "Food & Bio, Regen ag" },
+    { firstName: "Ines", lastName: "Moreau", email: "ines@example.com", company: "TU Delft", role: "Researcher", ticket: "Community / Student", headline: "Photonics & frontier compute", interests: "Sustainable Industries, Deep tech" },
+  ];
+  const participants: { id: string; firstName: string }[] = [];
+  for (const d of participantData) {
+    const r = await db.registration.create({
       data: {
         reference: generateReference(),
         eventId: event.id,
-        ticketTypeId: founderPass.id,
-        firstName: "Sam",
-        lastName: "Rivera",
-        email: "sam@example.com",
-        company: "Acme Climate",
-        role: "Founder",
+        ticketTypeId: ticketByName[d.ticket],
+        firstName: d.firstName,
+        lastName: d.lastName,
+        email: d.email,
+        company: d.company,
+        role: d.role,
+        headline: d.headline,
+        interests: d.interests,
+        bio: `${d.role} at ${d.company}. ${d.headline}.`,
+        networkingOptIn: true,
+        passwordHash: pw,
         status: "CONFIRMED",
       },
     });
+    participants.push({ id: r.id, firstName: r.firstName });
   }
+
+  // A couple of agenda items + a connection or two so the demo isn't empty.
+  const someSessions = await db.session.findMany({
+    where: { eventId: event.id, kind: { in: ["KEYNOTE", "PANEL", "TALK"] } },
+    take: 4,
+    orderBy: { startTime: "asc" },
+  });
+  for (const s of someSessions.slice(0, 3)) {
+    await db.agendaItem.create({ data: { registrationId: participants[0].id, sessionId: s.id } });
+  }
+  await db.connection.create({
+    data: { requesterId: participants[1].id, addresseeId: participants[0].id, status: "ACCEPTED", message: "Loved your climate work — let's talk." },
+  });
+  await db.connection.create({
+    data: { requesterId: participants[2].id, addresseeId: participants[0].id, status: "PENDING", message: "Fellow energy founder — would be great to connect." },
+  });
 
   console.log("Seed complete.");
 }

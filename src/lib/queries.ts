@@ -61,6 +61,38 @@ export async function getRegistrationByReference(reference: string) {
   });
 }
 
+/** A logged-in attendee's saved sessions, with track + day. */
+export async function getAgendaForAttendee(registrationId: string) {
+  return db.agendaItem.findMany({
+    where: { registrationId },
+    include: { session: { include: { track: true, day: true } } },
+  });
+}
+
+/** Opt-in participants for the directory (excluding the viewer). */
+export async function getParticipants(eventId: string, excludeId?: string) {
+  return db.registration.findMany({
+    where: {
+      eventId,
+      status: "CONFIRMED",
+      networkingOptIn: true,
+      ...(excludeId ? { id: { not: excludeId } } : {}),
+    },
+    orderBy: [{ firstName: "asc" }, { lastName: "asc" }],
+  });
+}
+
+/** Every connection involving the viewer (either direction). */
+export async function getConnectionsFor(registrationId: string) {
+  return db.connection.findMany({
+    where: {
+      OR: [{ requesterId: registrationId }, { addresseeId: registrationId }],
+    },
+    include: { requester: true, addressee: true },
+    orderBy: { createdAt: "desc" },
+  });
+}
+
 export async function getTicketAvailability(ticketTypeId: string) {
   const ticket = await db.ticketType.findUnique({
     where: { id: ticketTypeId },

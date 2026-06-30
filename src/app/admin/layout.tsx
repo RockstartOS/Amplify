@@ -13,7 +13,7 @@ const navItems = [
   { href: "/admin/sessions", label: "Schedule" },
   { href: "/admin/speakers", label: "Speakers" },
   { href: "/admin/tickets", label: "Tickets" },
-  { href: "/admin/registrations", label: "Registrations" },
+  { href: "/admin/participants", label: "Participants" },
 ];
 
 export default async function AdminLayout({

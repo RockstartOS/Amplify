@@ -7,9 +7,9 @@ import {
   getActiveEvent,
   getScheduleForEvent,
   getTracksForEvent,
-  getRegistrationByReference,
+  getAgendaForAttendee,
 } from "@/lib/queries";
-import { getAttendeeReference } from "@/lib/auth";
+import { getAttendeeId } from "@/lib/attendee-auth";
 import { formatDayDate } from "@/lib/domain";
 
 export const metadata: Metadata = { title: "Schedule" };
@@ -39,13 +39,11 @@ export default async function SchedulePage({
     getTracksForEvent(event.id),
   ]);
 
-  // Determine the attendee (if any) and their saved sessions.
-  const reference = await getAttendeeReference();
-  const registration = reference
-    ? await getRegistrationByReference(reference)
-    : null;
-  const isLinked = Boolean(registration);
-  const savedIds = new Set(registration?.agenda.map((a) => a.sessionId) ?? []);
+  // Determine the logged-in attendee (if any) and their saved sessions.
+  const attendeeId = await getAttendeeId();
+  const agenda = attendeeId ? await getAgendaForAttendee(attendeeId) : [];
+  const isLinked = Boolean(attendeeId);
+  const savedIds = new Set(agenda.map((a) => a.sessionId));
 
   const visibleDays = dayFilter
     ? days.filter((d) => d.id === dayFilter)
@@ -76,14 +74,14 @@ export default async function SchedulePage({
                 href="/agenda"
                 className="rounded-full bg-brand px-5 py-2.5 text-sm font-semibold text-cream transition-colors hover:bg-brand-dark"
               >
-                My agenda ({savedIds.size})
+                My schedule ({savedIds.size})
               </Link>
             ) : (
               <Link
-                href="/agenda"
+                href="/login"
                 className="rounded-full border border-cream/15 px-5 py-2.5 text-sm font-semibold transition-colors hover:bg-paper"
               >
-                Sign in to save sessions
+                Log in to save sessions
               </Link>
             )}
           </header>

@@ -84,6 +84,7 @@ export function RegisterForm({
         <Field name="email" label="Email" type="email" required className="sm:col-span-2" />
         <Field name="company" label="Company / fund" />
         <Field name="role" label="Role (e.g. Founder, Investor)" />
+        <Field name="password" label="Password" type="password" required className="sm:col-span-2" />
       </fieldset>
 
       {state.error && (
@@ -100,8 +101,8 @@ export function RegisterForm({
         {pending ? "Confirming…" : "Complete registration"}
       </button>
       <p className="text-xs text-ink/40">
-        This is a demo checkout — no payment is taken. You&apos;ll get a
-        reference code to build your agenda.
+        This is a demo checkout — no payment is taken. Your email and password
+        become your login to manage your schedule and network.
       </p>
     </form>
   );
