@@ -64,7 +64,7 @@ export default async function RegisterPage({
             </p>
 
             {pending ? (
-              <p className="mt-6 rounded-lg border border-indigo/30 bg-indigo/10 px-4 py-3 text-sm text-cream">
+              <p className="mt-6 rounded-lg border border-indigo/30 bg-indigo/10 px-4 py-3 text-sm text-ink">
                 ✓ Verified with{" "}
                 <span className="font-semibold capitalize">{pending.provider}</span> as{" "}
                 <span className="font-mono">{pending.email}</span>. Choose your
@@ -94,7 +94,7 @@ export default async function RegisterPage({
             </div>
           </div>
 
-          <aside className="h-fit rounded-2xl border border-cream/10 bg-surface p-6 ">
+          <aside className="h-fit rounded-2xl border border-ink/10 bg-surface p-6 ">
             <h2 className="font-semibold">What&apos;s included</h2>
             <ul className="mt-3 space-y-2 text-sm text-ink/70">
               <li>✓ Full access to Invested Day</li>
@@ -102,7 +102,7 @@ export default async function RegisterPage({
               <li>✓ A personal agenda builder</li>
               <li>✓ Networking reception</li>
             </ul>
-            <hr className="my-5 border-cream/10" />
+            <hr className="my-5 border-ink/10" />
             <p className="text-sm text-ink/60">
               Already registered?{" "}
               <Link href="/agenda" className="font-medium text-brand underline">

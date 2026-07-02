@@ -1,21 +1,21 @@
 @import "tailwindcss";
 
 @theme {
-  /* ── Rockstart 3.0 palette ── */
-  --color-bg: #0d0c0b; /* Deep Black — primary surface */
-  --color-surface: #1a1918; /* Black — secondary surface */
-  --color-cream: #f4f0ea; /* Warm White — never pure #fff */
+  /* ── Rockstart 3.0 palette — light platform ── */
+  --color-bg: #f4f0ea; /* Warm White — page */
+  --color-surface: #ffffff; /* card / raised surface */
+  --color-cream: #f4f0ea; /* light — used as text on indigo/dark buttons */
   --color-indigo: #7a5dff; /* THE accent. One per section. */
-  --color-indigo-soft: #9a83ff;
+  --color-indigo-soft: #5b3ff0; /* darker indigo — readable on light, button hover */
   --color-sand: #f3e5cd; /* human warmth */
-  --color-rock: #d6d6cc; /* data & proof */
+  --color-rock: #8f8b83; /* muted label ink */
 
   /* ── Back-compat aliases: existing utility names adopt the brand ── */
-  --color-ink: #f4f0ea; /* was dark text → warm white */
-  --color-paper: #0d0c0b; /* page background → deep black */
+  --color-ink: #1a1918; /* primary text */
+  --color-paper: #f4f0ea; /* page background */
   --color-brand: #7a5dff;
-  --color-brand-dark: #6044f0;
-  --color-accent: #7a5dff; /* fold the old amber into indigo */
+  --color-brand-dark: #5a3ff0;
+  --color-accent: #7a5dff;
 
   --font-display: var(--font-syne), ui-sans-serif, system-ui, sans-serif;
   --font-sans: var(--font-plex), ui-sans-serif, system-ui, sans-serif;
@@ -23,8 +23,8 @@
 }
 
 :root {
-  --background: #0d0c0b;
-  --foreground: #f4f0ea;
+  --background: #f4f0ea;
+  --foreground: #1a1918;
 }
 
 html {
@@ -59,32 +59,31 @@ h4,
   letter-spacing: 0.25em;
   text-transform: uppercase;
   color: var(--color-rock);
-  opacity: 0.65;
 }
 
 .mono {
   font-family: var(--font-mono);
 }
 
-/* Hero: deep black with a single restrained indigo glow + watermark. */
+/* Hero: warm white with a single restrained indigo glow. */
 .bg-brand-gradient {
   background:
-    radial-gradient(900px 460px at 12% -10%, rgba(122, 93, 255, 0.22), transparent 60%),
-    radial-gradient(700px 420px at 100% 0%, rgba(122, 93, 255, 0.1), transparent 55%),
-    #0d0c0b;
+    radial-gradient(900px 460px at 12% -10%, rgba(122, 93, 255, 0.14), transparent 60%),
+    radial-gradient(700px 420px at 100% 0%, rgba(122, 93, 255, 0.08), transparent 55%),
+    #f4f0ea;
 }
 
 .text-balance {
   text-wrap: balance;
 }
 
-/* Form controls on the dark canvas. */
+/* Form controls on the light canvas. */
 input,
 select,
 textarea {
-  color-scheme: dark;
+  color-scheme: light;
 }
 
 ::placeholder {
-  color: rgba(244, 240, 234, 0.35);
+  color: rgba(26, 25, 24, 0.4);
 }

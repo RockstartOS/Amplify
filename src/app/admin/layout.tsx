@@ -52,7 +52,7 @@ export default async function AdminLayout({
 
   return (
     <div className="flex min-h-screen flex-col bg-paper md:flex-row">
-      <aside className="border-b border-cream/10 bg-surface md:w-60 md:border-b-0 md:border-r">
+      <aside className="border-b border-ink/10 bg-surface md:w-60 md:border-b-0 md:border-r">
         <div className="flex items-center justify-between p-5">
           <Link href="/admin" className="flex items-center gap-2 font-semibold">
             <span className="grid h-7 w-7 place-items-center rounded-md bg-brand text-sm font-bold text-cream">

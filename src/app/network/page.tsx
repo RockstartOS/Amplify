@@ -39,7 +39,7 @@ export default async function NetworkPage() {
             <Link href="/login" className="rounded-full bg-indigo px-5 py-2.5 text-sm font-semibold text-cream hover:bg-brand">
               Log in
             </Link>
-            <Link href="/register" className="rounded-full border border-cream/15 px-5 py-2.5 text-sm font-semibold hover:bg-surface">
+            <Link href="/register" className="rounded-full border border-ink/15 px-5 py-2.5 text-sm font-semibold hover:bg-surface">
               Register
             </Link>
           </div>
@@ -84,7 +84,7 @@ export default async function NetworkPage() {
                 Edit your profile →
               </Link>
               {!me.networkingOptIn && (
-                <p className="mt-1 text-xs text-amber-300">
+                <p className="mt-1 text-xs text-amber-700">
                   You&apos;re hidden from the directory.
                 </p>
               )}
@@ -99,7 +99,7 @@ export default async function NetworkPage() {
               </h2>
               <div className="mt-3 space-y-3">
                 {incoming.map((c) => (
-                  <div key={c.id} className="flex items-start gap-4 rounded-xl border border-cream/10 bg-surface p-4">
+                  <div key={c.id} className="flex items-start gap-4 rounded-xl border border-ink/10 bg-surface p-4">
                     <Avatar first={c.requester.firstName} last={c.requester.lastName} />
                     <div className="flex-1">
                       <div className="font-semibold">
@@ -122,7 +122,7 @@ export default async function NetworkPage() {
                       <form action={respondConnectionAction}>
                         <input type="hidden" name="connectionId" value={c.id} />
                         <input type="hidden" name="decision" value="DECLINED" />
-                        <button className="rounded-full border border-cream/15 px-3 py-1.5 text-xs font-semibold text-ink/60 hover:bg-paper">
+                        <button className="rounded-full border border-ink/15 px-3 py-1.5 text-xs font-semibold text-ink/60 hover:bg-paper">
                           Decline
                         </button>
                       </form>
@@ -143,7 +143,7 @@ export default async function NetworkPage() {
                 {accepted.map((c) => {
                   const other = c.requesterId === me.id ? c.addressee : c.requester;
                   return (
-                    <div key={c.id} className="flex items-start gap-3 rounded-xl border border-cream/10 bg-surface p-4">
+                    <div key={c.id} className="flex items-start gap-3 rounded-xl border border-ink/10 bg-surface p-4">
                       <Avatar first={other.firstName} last={other.lastName} />
                       <div className="flex-1">
                         <div className="font-semibold">
@@ -179,7 +179,7 @@ export default async function NetworkPage() {
               {participants.map((p) => {
                 const conn = byOther.get(p.id);
                 return (
-                  <div key={p.id} className="flex flex-col rounded-xl border border-cream/10 bg-surface p-4">
+                  <div key={p.id} className="flex flex-col rounded-xl border border-ink/10 bg-surface p-4">
                     <div className="flex items-start gap-3">
                       <Avatar first={p.firstName} last={p.lastName} />
                       <div className="min-w-0 flex-1">
@@ -196,7 +196,7 @@ export default async function NetworkPage() {
                     {p.interests && (
                       <div className="mt-2 flex flex-wrap gap-1.5">
                         {p.interests.split(",").map((tag) => (
-                          <span key={tag} className="mono rounded-full border border-cream/15 px-2 py-0.5 text-[10px] uppercase tracking-wide text-ink/50">
+                          <span key={tag} className="mono rounded-full border border-ink/15 px-2 py-0.5 text-[10px] uppercase tracking-wide text-ink/50">
                             {tag.trim()}
                           </span>
                         ))}
@@ -217,17 +217,17 @@ export default async function NetworkPage() {
                         </span>
                       )}
                       {conn?.status === "PENDING" && conn.requesterId === me.id && (
-                        <span className="block rounded-full border border-cream/15 px-3 py-1.5 text-center text-xs font-semibold text-ink/50">
+                        <span className="block rounded-full border border-ink/15 px-3 py-1.5 text-center text-xs font-semibold text-ink/50">
                           Request sent
                         </span>
                       )}
                       {conn?.status === "PENDING" && conn.addresseeId === me.id && (
-                        <span className="block rounded-full border border-cream/15 px-3 py-1.5 text-center text-xs font-semibold text-indigo-soft">
+                        <span className="block rounded-full border border-ink/15 px-3 py-1.5 text-center text-xs font-semibold text-indigo-soft">
                           Responds above ↑
                         </span>
                       )}
                       {conn?.status === "DECLINED" && (
-                        <span className="block rounded-full border border-cream/15 px-3 py-1.5 text-center text-xs font-semibold text-ink/40">
+                        <span className="block rounded-full border border-ink/15 px-3 py-1.5 text-center text-xs font-semibold text-ink/40">
                           —
                         </span>
                       )}

@@ -17,13 +17,13 @@ export async function SiteHeader({ transparent = false }: { transparent?: boolea
       className={
         transparent
           ? "absolute inset-x-0 top-0 z-20"
-          : "sticky top-0 z-20 border-b border-cream/10 bg-paper/85 backdrop-blur"
+          : "sticky top-0 z-20 border-b border-ink/10 bg-paper/85 backdrop-blur"
       }
     >
       <div className="mx-auto flex max-w-6xl items-center justify-between px-5 py-4">
         <Link
           href="/"
-          className="font-display text-lg font-bold tracking-tight text-cream"
+          className="font-display text-lg font-bold tracking-tight text-ink"
         >
           Amplify <span className="text-indigo">Europe</span>
         </Link>
@@ -33,7 +33,7 @@ export async function SiteHeader({ transparent = false }: { transparent?: boolea
             <Link
               key={item.href}
               href={item.href}
-              className="mono text-[10px] font-medium uppercase tracking-[0.22em] text-cream/50 transition-colors hover:text-cream"
+              className="mono text-[10px] font-medium uppercase tracking-[0.22em] text-ink/50 transition-colors hover:text-ink"
             >
               {item.label}
             </Link>
@@ -44,14 +44,14 @@ export async function SiteHeader({ transparent = false }: { transparent?: boolea
           {loggedIn ? (
             <Link
               href="/account"
-              className="mono text-[10px] font-medium uppercase tracking-[0.22em] text-cream/50 transition-colors hover:text-cream"
+              className="mono text-[10px] font-medium uppercase tracking-[0.22em] text-ink/50 transition-colors hover:text-ink"
             >
               Account
             </Link>
           ) : (
             <Link
               href="/login"
-              className="mono hidden text-[10px] font-medium uppercase tracking-[0.22em] text-cream/50 transition-colors hover:text-cream sm:block"
+              className="mono hidden text-[10px] font-medium uppercase tracking-[0.22em] text-ink/50 transition-colors hover:text-ink sm:block"
             >
               Log in
             </Link>

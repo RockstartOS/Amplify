@@ -79,7 +79,7 @@ export default async function SchedulePage({
             ) : (
               <Link
                 href="/login"
-                className="rounded-full border border-cream/15 px-5 py-2.5 text-sm font-semibold transition-colors hover:bg-paper"
+                className="rounded-full border border-ink/15 px-5 py-2.5 text-sm font-semibold transition-colors hover:bg-paper"
               >
                 Log in to save sessions
               </Link>
@@ -135,7 +135,7 @@ export default async function SchedulePage({
                       {day.theme ? ` · ${day.theme}` : ""}
                     </p>
                   </div>
-                  <div className="mt-2 rounded-2xl border border-cream/10 bg-surface px-5 ">
+                  <div className="mt-2 rounded-2xl border border-ink/10 bg-surface px-5 ">
                     {sessions.map((session) => (
                       <SessionRow
                         key={session.id}
@@ -151,7 +151,7 @@ export default async function SchedulePage({
             {visibleDays.every(
               (d) => d.sessions.filter((s) => filterSession(s.trackId)).length === 0
             ) && (
-              <p className="rounded-2xl border border-dashed border-cream/15 py-16 text-center text-ink/50">
+              <p className="rounded-2xl border border-dashed border-ink/15 py-16 text-center text-ink/50">
                 No sessions match this filter.
               </p>
             )}
@@ -188,7 +188,7 @@ function FilterChip({
       className={`inline-flex items-center gap-1.5 rounded-full border px-3.5 py-1.5 text-sm font-medium transition-colors ${
         active
           ? "border-transparent bg-indigo text-cream"
-          : "border-cream/15 text-ink/70 hover:bg-surface"
+          : "border-ink/15 text-ink/70 hover:bg-surface"
       }`}
     >
       {color && (

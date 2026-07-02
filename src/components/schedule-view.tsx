@@ -30,7 +30,7 @@ function AgendaButton({
     return (
       <Link
         href="/login"
-        className="shrink-0 rounded-full border border-cream/15 px-3 py-1.5 text-xs font-semibold text-ink/60 transition-colors hover:bg-paper"
+        className="shrink-0 rounded-full border border-ink/15 px-3 py-1.5 text-xs font-semibold text-ink/60 transition-colors hover:bg-paper"
         title="Log in to build your schedule"
       >
         + Save
@@ -45,7 +45,7 @@ function AgendaButton({
         className={
           saved
             ? "rounded-full bg-brand px-3 py-1.5 text-xs font-semibold text-cream transition-colors hover:bg-brand-dark"
-            : "rounded-full border border-cream/15 px-3 py-1.5 text-xs font-semibold text-ink/70 transition-colors hover:bg-paper"
+            : "rounded-full border border-ink/15 px-3 py-1.5 text-xs font-semibold text-ink/70 transition-colors hover:bg-paper"
         }
       >
         {saved ? "✓ In agenda" : "+ Add"}
@@ -66,7 +66,7 @@ export function SessionRow({
   showAgenda?: boolean;
 }) {
   return (
-    <div className="flex gap-4 border-b border-cream/10 py-4 last:border-0">
+    <div className="flex gap-4 border-b border-ink/10 py-4 last:border-0">
       <div className="w-24 shrink-0 pt-0.5 font-mono text-sm text-ink/60">
         {formatTimeRange(session.startTime, session.endTime)}
       </div>

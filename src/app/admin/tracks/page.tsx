@@ -48,12 +48,12 @@ export default async function AdminTracksPage() {
                     type="color"
                     name="color"
                     defaultValue={track.color}
-                    className="h-9 w-12 cursor-pointer rounded border border-cream/15"
+                    className="h-9 w-12 cursor-pointer rounded border border-ink/15"
                   />
                   <input
                     name="name"
                     defaultValue={track.name}
-                    className="flex-1 rounded-lg border border-cream/15 px-3 py-2 font-semibold outline-none focus:border-brand"
+                    className="flex-1 rounded-lg border border-ink/15 px-3 py-2 font-semibold outline-none focus:border-brand"
                   />
                   <span className="text-xs text-ink/40">
                     {track._count.sessions} sessions

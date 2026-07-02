@@ -33,11 +33,11 @@ export default async function LoginPage({
           Access your schedule and the participant network.
         </p>
         {error && errorMessages[error] && (
-          <p className="mt-4 rounded-lg bg-red-500/10 px-4 py-3 text-sm text-red-300">
+          <p className="mt-4 rounded-lg bg-red-500/10 px-4 py-3 text-sm text-red-700">
             {errorMessages[error]}
           </p>
         )}
-        <div className="mt-6 space-y-5 rounded-2xl border border-cream/10 bg-surface p-6">
+        <div className="mt-6 space-y-5 rounded-2xl border border-ink/10 bg-surface p-6">
           <SocialAuth label="Log in" />
           <AttendeeLoginForm />
         </div>

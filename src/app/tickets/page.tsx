@@ -57,7 +57,7 @@ export default async function TicketsPage() {
               return (
                 <div
                   key={ticket.id}
-                  className="flex flex-col rounded-2xl border border-cream/10 bg-surface p-7 "
+                  className="flex flex-col rounded-2xl border border-ink/10 bg-surface p-7 "
                 >
                   <div className="flex items-start justify-between">
                     <h2 className="text-xl font-semibold">{ticket.name}</h2>
@@ -78,7 +78,7 @@ export default async function TicketsPage() {
                     aria-disabled={soldOut}
                     className={`mt-5 rounded-full px-5 py-3 text-center text-sm font-semibold transition-colors ${
                       soldOut
-                        ? "cursor-not-allowed bg-cream/5 text-ink/40"
+                        ? "cursor-not-allowed bg-ink/5 text-ink/40"
                         : "bg-indigo text-cream hover:bg-brand"
                     }`}
                   >

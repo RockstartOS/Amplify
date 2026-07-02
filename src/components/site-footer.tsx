@@ -2,10 +2,10 @@ import Link from "next/link";
 
 export function SiteFooter() {
   return (
-    <footer className="mt-auto border-t border-cream/10 bg-surface text-cream/65">
+    <footer className="mt-auto border-t border-ink/10 bg-surface text-ink/65">
       <div className="mx-auto grid max-w-6xl gap-8 px-5 py-14 sm:grid-cols-2 md:grid-cols-4">
         <div className="sm:col-span-2 md:col-span-1">
-          <div className="font-display text-lg font-bold text-cream">
+          <div className="font-display text-lg font-bold text-ink">
             Amplify <span className="text-indigo">Europe</span>
           </div>
           <p className="mt-3 max-w-xs text-sm">
@@ -17,21 +17,21 @@ export function SiteFooter() {
         <div>
           <h3 className="eyebrow">Event</h3>
           <ul className="mt-4 space-y-2 text-sm">
-            <li><Link href="/#about" className="transition-colors hover:text-cream">About</Link></li>
-            <li><Link href="/schedule" className="transition-colors hover:text-cream">Schedule</Link></li>
-            <li><Link href="/#tracks" className="transition-colors hover:text-cream">Tracks</Link></li>
-            <li><Link href="/tickets" className="transition-colors hover:text-cream">Tickets</Link></li>
+            <li><Link href="/#about" className="transition-colors hover:text-ink">About</Link></li>
+            <li><Link href="/schedule" className="transition-colors hover:text-ink">Schedule</Link></li>
+            <li><Link href="/#tracks" className="transition-colors hover:text-ink">Tracks</Link></li>
+            <li><Link href="/tickets" className="transition-colors hover:text-ink">Tickets</Link></li>
           </ul>
         </div>
 
         <div>
           <h3 className="eyebrow">Attendees</h3>
           <ul className="mt-4 space-y-2 text-sm">
-            <li><Link href="/register" className="transition-colors hover:text-cream">Register</Link></li>
-            <li><Link href="/login" className="transition-colors hover:text-cream">Log in</Link></li>
-            <li><Link href="/agenda" className="transition-colors hover:text-cream">My schedule</Link></li>
-            <li><Link href="/network" className="transition-colors hover:text-cream">Network</Link></li>
-            <li><Link href="/admin" className="transition-colors hover:text-cream">Organiser login</Link></li>
+            <li><Link href="/register" className="transition-colors hover:text-ink">Register</Link></li>
+            <li><Link href="/login" className="transition-colors hover:text-ink">Log in</Link></li>
+            <li><Link href="/agenda" className="transition-colors hover:text-ink">My schedule</Link></li>
+            <li><Link href="/network" className="transition-colors hover:text-ink">Network</Link></li>
+            <li><Link href="/admin" className="transition-colors hover:text-ink">Organiser login</Link></li>
           </ul>
         </div>
 
@@ -43,8 +43,8 @@ export function SiteFooter() {
           </p>
         </div>
       </div>
-      <div className="border-t border-cream/10">
-        <div className="mx-auto flex max-w-6xl flex-col items-center justify-between gap-2 px-5 py-5 text-xs text-cream/40 sm:flex-row">
+      <div className="border-t border-ink/10">
+        <div className="mx-auto flex max-w-6xl flex-col items-center justify-between gap-2 px-5 py-5 text-xs text-ink/40 sm:flex-row">
           <span>© {new Date().getFullYear()} Amplify Europe. All rights reserved.</span>
           <span className="mono tracking-[0.2em] uppercase">Amplify Europe · Amsterdam 2027</span>
         </div>

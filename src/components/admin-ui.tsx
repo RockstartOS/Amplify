@@ -28,14 +28,14 @@ export function Card({
   className?: string;
 }) {
   return (
-    <div className={`rounded-2xl border border-cream/10 bg-surface p-6  ${className}`}>
+    <div className={`rounded-2xl border border-ink/10 bg-surface p-6  ${className}`}>
       {children}
     </div>
   );
 }
 
 const inputCls =
-  "mt-1 w-full rounded-lg border border-cream/15 px-3 py-2 text-sm outline-none focus:border-brand focus:ring-2 focus:ring-brand/20";
+  "mt-1 w-full rounded-lg border border-ink/15 px-3 py-2 text-sm outline-none focus:border-brand focus:ring-2 focus:ring-brand/20";
 
 export function Field({
   label,
@@ -140,7 +140,7 @@ export function CheckboxField({
         type="checkbox"
         name={name}
         defaultChecked={defaultChecked}
-        className="h-4 w-4 rounded border-cream/20 text-brand focus:ring-brand"
+        className="h-4 w-4 rounded border-ink/20 text-brand focus:ring-brand"
       />
       {label}
     </label>

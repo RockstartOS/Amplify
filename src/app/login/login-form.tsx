@@ -16,7 +16,7 @@ export function AttendeeLoginForm() {
           name="email"
           type="email"
           autoComplete="email"
-          className="mt-1 w-full rounded-lg border border-cream/15 px-3 py-2.5 text-sm outline-none focus:border-brand focus:ring-2 focus:ring-brand/20"
+          className="mt-1 w-full rounded-lg border border-ink/15 px-3 py-2.5 text-sm outline-none focus:border-brand focus:ring-2 focus:ring-brand/20"
         />
       </label>
       <label className="block">
@@ -25,7 +25,7 @@ export function AttendeeLoginForm() {
           name="password"
           type="password"
           autoComplete="current-password"
-          className="mt-1 w-full rounded-lg border border-cream/15 px-3 py-2.5 text-sm outline-none focus:border-brand focus:ring-2 focus:ring-brand/20"
+          className="mt-1 w-full rounded-lg border border-ink/15 px-3 py-2.5 text-sm outline-none focus:border-brand focus:ring-2 focus:ring-brand/20"
         />
       </label>
       {state.error && <p className="text-sm text-red-400">{state.error}</p>}

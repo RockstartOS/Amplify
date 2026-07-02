@@ -51,10 +51,10 @@ export function RegisterForm({
               key={ticket.id}
               className={`relative flex cursor-pointer flex-col rounded-xl border p-4 transition-colors ${
                 ticket.soldOut
-                  ? "cursor-not-allowed border-cream/10 bg-paper opacity-60"
+                  ? "cursor-not-allowed border-ink/10 bg-paper opacity-60"
                   : selected === ticket.id
                   ? "border-brand bg-brand/5 ring-1 ring-brand"
-                  : "border-cream/15 hover:border-brand/50"
+                  : "border-ink/15 hover:border-brand/50"
               }`}
             >
               <input
@@ -107,7 +107,7 @@ export function RegisterForm({
       </fieldset>
 
       {state.error && (
-        <p className="rounded-lg bg-red-500/10 px-4 py-3 text-sm text-red-300">
+        <p className="rounded-lg bg-red-500/10 px-4 py-3 text-sm text-red-700">
           {state.error}
         </p>
       )}
@@ -115,7 +115,7 @@ export function RegisterForm({
       <button
         type="submit"
         disabled={pending || !selected}
-        className="w-full rounded-full bg-accent px-6 py-3.5 font-semibold text-ink transition-transform hover:scale-[1.01] disabled:cursor-not-allowed disabled:opacity-60 sm:w-auto"
+        className="w-full rounded-full bg-accent px-6 py-3.5 font-semibold text-cream transition-transform hover:scale-[1.01] disabled:cursor-not-allowed disabled:opacity-60 sm:w-auto"
       >
         {pending ? "Confirming…" : "Complete registration"}
       </button>
@@ -158,7 +158,7 @@ function Field({
         required={required}
         defaultValue={defaultValue}
         readOnly={readOnly}
-        className={`mt-1 w-full rounded-lg border border-cream/15 px-3 py-2.5 text-sm outline-none transition-colors focus:border-brand focus:ring-2 focus:ring-brand/20 ${
+        className={`mt-1 w-full rounded-lg border border-ink/15 px-3 py-2.5 text-sm outline-none transition-colors focus:border-brand focus:ring-2 focus:ring-brand/20 ${
           readOnly ? "cursor-not-allowed text-ink/60" : ""
         }`}
       />

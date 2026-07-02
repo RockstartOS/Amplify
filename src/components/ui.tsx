@@ -20,12 +20,12 @@ export function TrackPill({
 
 const kindStyles: Record<string, string> = {
   KEYNOTE: "text-indigo-soft",
-  PANEL: "text-cream/70",
-  WORKSHOP: "text-cream/70",
+  PANEL: "text-ink/70",
+  WORKSHOP: "text-ink/70",
   PITCH: "text-indigo-soft",
-  TALK: "text-cream/55",
-  NETWORKING: "text-cream/55",
-  BREAK: "text-cream/40",
+  TALK: "text-ink/55",
+  NETWORKING: "text-ink/55",
+  BREAK: "text-ink/40",
 };
 
 export function KindBadge({ kind }: { kind: string }) {
@@ -33,7 +33,7 @@ export function KindBadge({ kind }: { kind: string }) {
   return (
     <span
       className={`mono inline-block text-[10px] font-medium uppercase tracking-[0.18em] ${
-        kindStyles[kind] ?? "text-cream/55"
+        kindStyles[kind] ?? "text-ink/55"
       }`}
     >
       {label}

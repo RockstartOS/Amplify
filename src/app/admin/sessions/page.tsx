@@ -49,7 +49,7 @@ export default async function AdminSessionsPage() {
             </Link>
           </div>
 
-          <div className="mt-3 divide-y divide-cream/10">
+          <div className="mt-3 divide-y divide-ink/10">
             {day.sessions.length === 0 && (
               <p className="py-6 text-sm text-ink/45">No sessions on this day yet.</p>
             )}

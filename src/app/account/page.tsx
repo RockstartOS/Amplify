@@ -13,7 +13,7 @@ import {
 export const metadata: Metadata = { title: "My account" };
 
 const input =
-  "mt-1 w-full rounded-lg border border-cream/15 bg-transparent px-3 py-2 text-sm outline-none focus:border-brand focus:ring-2 focus:ring-brand/20";
+  "mt-1 w-full rounded-lg border border-ink/15 bg-transparent px-3 py-2 text-sm outline-none focus:border-brand focus:ring-2 focus:ring-brand/20";
 
 export default async function AccountPage() {
   const me = await getCurrentAttendee();
@@ -33,14 +33,14 @@ export default async function AccountPage() {
               </p>
             </div>
             <form action={logoutAttendeeAction}>
-              <button className="rounded-full border border-cream/15 px-4 py-2 text-sm font-semibold transition-colors hover:bg-surface">
+              <button className="rounded-full border border-ink/15 px-4 py-2 text-sm font-semibold transition-colors hover:bg-surface">
                 Log out
               </button>
             </form>
           </header>
 
           {/* Profile */}
-          <section className="mt-8 rounded-2xl border border-cream/10 bg-surface p-6">
+          <section className="mt-8 rounded-2xl border border-ink/10 bg-surface p-6">
             <h2 className="font-semibold">Networking profile</h2>
             <p className="mt-1 text-sm text-ink/55">
               This is what other participants see in the directory.
@@ -81,7 +81,7 @@ export default async function AccountPage() {
                   type="checkbox"
                   name="networkingOptIn"
                   defaultChecked={me.networkingOptIn}
-                  className="h-4 w-4 rounded border-cream/20 text-brand focus:ring-brand"
+                  className="h-4 w-4 rounded border-ink/20 text-brand focus:ring-brand"
                 />
                 Show me in the participant directory
               </label>
@@ -92,14 +92,14 @@ export default async function AccountPage() {
           </section>
 
           {/* Password */}
-          <section className="mt-6 rounded-2xl border border-cream/10 bg-surface p-6">
+          <section className="mt-6 rounded-2xl border border-ink/10 bg-surface p-6">
             <h2 className="font-semibold">Change password</h2>
             <form action={changePasswordAction} className="mt-4 flex flex-wrap items-end gap-3">
               <label className="block flex-1">
                 <span className="text-sm font-medium text-ink/80">New password</span>
                 <input name="newPassword" type="password" minLength={6} className={input} />
               </label>
-              <button className="rounded-full border border-cream/15 px-5 py-2.5 text-sm font-semibold transition-colors hover:bg-paper">
+              <button className="rounded-full border border-ink/15 px-5 py-2.5 text-sm font-semibold transition-colors hover:bg-paper">
                 Update
               </button>
             </form>

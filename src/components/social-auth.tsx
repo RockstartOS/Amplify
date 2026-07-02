@@ -19,7 +19,7 @@ function LinkedInIcon() {
 
 export function SocialAuth({ label = "continue" }: { label?: string }) {
   const btn =
-    "flex items-center justify-center gap-2.5 rounded-full border border-cream/15 bg-cream/[0.03] px-4 py-2.5 text-sm font-semibold text-cream transition-colors hover:bg-cream/[0.08]";
+    "flex items-center justify-center gap-2.5 rounded-full border border-ink/15 bg-surface px-4 py-2.5 text-sm font-semibold text-ink transition-colors hover:bg-ink/[0.04]";
   return (
     <div className="space-y-3">
       <div className="grid gap-3 sm:grid-cols-2">
@@ -33,9 +33,9 @@ export function SocialAuth({ label = "continue" }: { label?: string }) {
         </a>
       </div>
       <div className="flex items-center gap-3 text-xs text-ink/40">
-        <span className="h-px flex-1 bg-cream/10" />
+        <span className="h-px flex-1 bg-ink/10" />
         or with email
-        <span className="h-px flex-1 bg-cream/10" />
+        <span className="h-px flex-1 bg-ink/10" />
       </div>
     </div>
   );

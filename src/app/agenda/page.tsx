@@ -26,7 +26,7 @@ export default async function AgendaPage() {
             <Link href="/login" className="rounded-full bg-indigo px-5 py-2.5 text-sm font-semibold text-cream hover:bg-brand">
               Log in
             </Link>
-            <Link href="/register" className="rounded-full border border-cream/15 px-5 py-2.5 text-sm font-semibold hover:bg-surface">
+            <Link href="/register" className="rounded-full border border-ink/15 px-5 py-2.5 text-sm font-semibold hover:bg-surface">
               Register
             </Link>
           </div>
@@ -71,11 +71,11 @@ export default async function AgendaPage() {
           </header>
 
           {items.length === 0 ? (
-            <div className="mt-10 rounded-2xl border border-dashed border-cream/15 py-16 text-center">
+            <div className="mt-10 rounded-2xl border border-dashed border-ink/15 py-16 text-center">
               <p className="text-ink/60">Your schedule is empty.</p>
               <Link
                 href="/schedule"
-                className="mt-4 inline-block rounded-full bg-accent px-5 py-2.5 text-sm font-semibold text-ink"
+                className="mt-4 inline-block rounded-full bg-accent px-5 py-2.5 text-sm font-semibold text-cream"
               >
                 Browse the programme
               </Link>
@@ -92,7 +92,7 @@ export default async function AgendaPage() {
                       {dayItems.map(({ session }) => (
                         <div
                           key={session.id}
-                          className="flex items-start gap-4 rounded-xl border border-cream/10 bg-surface p-4"
+                          className="flex items-start gap-4 rounded-xl border border-ink/10 bg-surface p-4"
                         >
                           <div className="w-24 shrink-0 font-mono text-sm text-ink/60">
                             {formatTimeRange(session.startTime, session.endTime)}
@@ -112,7 +112,7 @@ export default async function AgendaPage() {
                           <form action={toggleAgendaItem}>
                             <input type="hidden" name="sessionId" value={session.id} />
                             <button
-                              className="rounded-full border border-cream/15 px-3 py-1.5 text-xs font-semibold text-ink/60 transition-colors hover:border-red-500/40 hover:bg-red-500/10 hover:text-red-400"
+                              className="rounded-full border border-ink/15 px-3 py-1.5 text-xs font-semibold text-ink/60 transition-colors hover:border-red-500/40 hover:bg-red-500/10 hover:text-red-400"
                               title="Remove from schedule"
                             >
                               Remove
