@@ -3,7 +3,9 @@ import type { Metadata } from "next";
 import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
 import { RegisterForm } from "./register-form";
+import { SocialAuth } from "@/components/social-auth";
 import { getActiveEvent, getTicketTypesForEvent } from "@/lib/queries";
+import { getPendingOAuth } from "@/lib/oauth";
 import { db } from "@/lib/db";
 import { formatDateRange } from "@/lib/domain";
 
@@ -46,6 +48,8 @@ export default async function RegisterPage({
     soldOut: t.quantity != null && (soldByTicket.get(t.id) ?? 0) >= t.quantity,
   }));
 
+  const pending = await getPendingOAuth();
+
   return (
     <>
       <SiteHeader />
@@ -58,8 +62,35 @@ export default async function RegisterPage({
             <p className="mt-2 text-ink/60">
               {event.city} · {formatDateRange(event.startDate, event.endDate)}
             </p>
+
+            {pending ? (
+              <p className="mt-6 rounded-lg border border-indigo/30 bg-indigo/10 px-4 py-3 text-sm text-cream">
+                ✓ Verified with{" "}
+                <span className="font-semibold capitalize">{pending.provider}</span> as{" "}
+                <span className="font-mono">{pending.email}</span>. Choose your
+                pass to finish — no password needed.
+              </p>
+            ) : (
+              <div className="mt-6 max-w-md">
+                <SocialAuth label="Sign up" />
+              </div>
+            )}
+
             <div className="mt-8">
-              <RegisterForm tickets={tickets} initialTicketId={ticketParam} />
+              <RegisterForm
+                tickets={tickets}
+                initialTicketId={ticketParam}
+                oauth={
+                  pending
+                    ? {
+                        provider: pending.provider,
+                        email: pending.email,
+                        firstName: pending.firstName,
+                        lastName: pending.lastName,
+                      }
+                    : undefined
+                }
+              />
             </div>
           </div>
 

@@ -417,6 +417,24 @@ async function main() {
     data: { requesterId: participants[2].id, addresseeId: participants[0].id, status: "PENDING", message: "Fellow energy founder — would be great to connect." },
   });
 
+  // Social-login demo accounts (no password; used by the dev OAuth stand-in).
+  await db.registration.create({
+    data: {
+      reference: generateReference(), eventId: event.id, ticketTypeId: ticketByName["Investor Pass"],
+      firstName: "Google", lastName: "Demo", email: "google.demo@amplify.test",
+      company: "Demo Ventures", role: "Investor", headline: "Signed in with Google",
+      interests: "Energy, Pre-seed", networkingOptIn: true, passwordHash: null, status: "CONFIRMED",
+    },
+  });
+  await db.registration.create({
+    data: {
+      reference: generateReference(), eventId: event.id, ticketTypeId: ticketByName["Founder Pass"],
+      firstName: "LinkedIn", lastName: "Demo", email: "linkedin.demo@amplify.test",
+      company: "Demo Labs", role: "Founder", headline: "Signed in with LinkedIn",
+      interests: "Food & Bio", networkingOptIn: true, passwordHash: null, status: "CONFIRMED",
+    },
+  });
+
   console.log("Seed complete.");
 }
 

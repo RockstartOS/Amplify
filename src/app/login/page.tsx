@@ -4,12 +4,26 @@ import { redirect } from "next/navigation";
 import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
 import { AttendeeLoginForm } from "./login-form";
+import { SocialAuth } from "@/components/social-auth";
 import { getAttendeeId } from "@/lib/attendee-auth";
 
 export const metadata: Metadata = { title: "Log in" };
 
-export default async function LoginPage() {
+const errorMessages: Record<string, string> = {
+  oauth_denied: "Social login was cancelled. Try again or use email.",
+  oauth_state: "Your login session expired. Please try again.",
+  oauth_profile: "We couldn't read your profile from that provider.",
+  not_configured: "That provider isn't configured yet.",
+  no_event: "Registration isn't open yet.",
+};
+
+export default async function LoginPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ error?: string }>;
+}) {
   if (await getAttendeeId()) redirect("/network");
+  const { error } = await searchParams;
   return (
     <>
       <SiteHeader />
@@ -18,7 +32,13 @@ export default async function LoginPage() {
         <p className="mt-2 text-ink/60">
           Access your schedule and the participant network.
         </p>
-        <div className="mt-6 rounded-2xl border border-cream/10 bg-surface p-6">
+        {error && errorMessages[error] && (
+          <p className="mt-4 rounded-lg bg-red-500/10 px-4 py-3 text-sm text-red-300">
+            {errorMessages[error]}
+          </p>
+        )}
+        <div className="mt-6 space-y-5 rounded-2xl border border-cream/10 bg-surface p-6">
+          <SocialAuth label="Log in" />
           <AttendeeLoginForm />
         </div>
         <p className="mt-4 text-center text-sm text-ink/50">

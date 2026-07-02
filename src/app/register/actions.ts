@@ -4,6 +4,7 @@ import { redirect } from "next/navigation";
 import { db } from "@/lib/db";
 import { generateReference } from "@/lib/domain";
 import { hashPassword, startAttendeeSession } from "@/lib/attendee-auth";
+import { getPendingOAuth, clearPendingOAuth } from "@/lib/oauth";
 
 export type RegisterState = { error?: string };
 
@@ -11,9 +12,11 @@ export async function registerAction(
   _prev: RegisterState,
   formData: FormData
 ): Promise<RegisterState> {
+  const pending = await getPendingOAuth();
   const firstName = String(formData.get("firstName") ?? "").trim();
   const lastName = String(formData.get("lastName") ?? "").trim();
-  const email = String(formData.get("email") ?? "").trim().toLowerCase();
+  // For social signups the verified email from the provider is authoritative.
+  const email = (pending?.email ?? String(formData.get("email") ?? "")).trim().toLowerCase();
   const company = String(formData.get("company") ?? "").trim();
   const role = String(formData.get("role") ?? "").trim();
   const password = String(formData.get("password") ?? "");
@@ -25,7 +28,7 @@ export async function registerAction(
   if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) {
     return { error: "Please enter a valid email address." };
   }
-  if (password.length < 6) {
+  if (!pending && password.length < 6) {
     return { error: "Please choose a password of at least 6 characters." };
   }
   if (!ticketTypeId) {
@@ -63,12 +66,13 @@ export async function registerAction(
       email,
       company: company || null,
       role: role || null,
-      passwordHash: hashPassword(password),
+      passwordHash: pending ? null : hashPassword(password),
       status: "CONFIRMED",
     },
   });
 
   // Log the attendee in straight away.
+  if (pending) await clearPendingOAuth();
   await startAttendeeSession(registration.id);
 
   redirect(`/register/success?ref=${reference}`);

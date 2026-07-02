@@ -58,10 +58,25 @@ variable.
 | `npm run db:reset`  | Reset the schema and reseed                  |
 | `npm run db:studio` | Open Prisma Studio to inspect the data       |
 
+## Attendee accounts & social login
+
+Attendees log in with email + password, or with **Google** / **LinkedIn**
+(OpenID Connect). Copy `.env.example` to `.env` and set the provider
+credentials; register these redirect URIs with each provider:
+
+- `{BASE_URL}/api/auth/google/callback`
+- `{BASE_URL}/api/auth/linkedin/callback`
+
+When credentials are not set, the social buttons fall back to a clearly
+labelled **demo identity in development only** (disabled in production) so the
+flow is testable without real apps. New social users are sent to registration
+to choose a pass; the verified email becomes their login.
+
 ## Moving to production
 
 SQLite keeps local development zero-config. For a deployed environment, point
 the `datasource` in `prisma/schema.prisma` at Postgres, run `prisma migrate`,
-and replace the shared-password admin gate in `src/lib/auth.ts` with a real
-identity provider. The mock checkout in `src/app/register/actions.ts` is where a
+set a strong `SESSION_SECRET`, and configure the OAuth apps above. The
+shared-password admin gate in `src/lib/auth.ts` should move to a real identity
+provider, and the mock checkout in `src/app/register/actions.ts` is where a
 payment provider (e.g. Stripe) would slot in.

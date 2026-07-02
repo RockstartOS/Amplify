@@ -13,12 +13,21 @@ type Ticket = {
   soldOut: boolean;
 };
 
+type OAuthPrefill = {
+  provider: string;
+  email: string;
+  firstName: string;
+  lastName: string;
+};
+
 export function RegisterForm({
   tickets,
   initialTicketId,
+  oauth,
 }: {
   tickets: Ticket[];
   initialTicketId?: string;
+  oauth?: OAuthPrefill;
 }) {
   const firstAvailable = tickets.find((t) => !t.soldOut);
   const [selected, setSelected] = useState(
@@ -79,12 +88,22 @@ export function RegisterForm({
       {/* Attendee details */}
       <fieldset className="grid gap-4 sm:grid-cols-2">
         <legend className="mb-1 text-sm font-semibold text-ink">Your details</legend>
-        <Field name="firstName" label="First name" required />
-        <Field name="lastName" label="Last name" required />
-        <Field name="email" label="Email" type="email" required className="sm:col-span-2" />
+        <Field name="firstName" label="First name" required defaultValue={oauth?.firstName} />
+        <Field name="lastName" label="Last name" required defaultValue={oauth?.lastName} />
+        <Field
+          name="email"
+          label="Email"
+          type="email"
+          required
+          className="sm:col-span-2"
+          defaultValue={oauth?.email}
+          readOnly={Boolean(oauth)}
+        />
         <Field name="company" label="Company / fund" />
         <Field name="role" label="Role (e.g. Founder, Investor)" />
-        <Field name="password" label="Password" type="password" required className="sm:col-span-2" />
+        {!oauth && (
+          <Field name="password" label="Password" type="password" required className="sm:col-span-2" />
+        )}
       </fieldset>
 
       {state.error && (
@@ -101,8 +120,10 @@ export function RegisterForm({
         {pending ? "Confirming…" : "Complete registration"}
       </button>
       <p className="text-xs text-ink/40">
-        This is a demo checkout — no payment is taken. Your email and password
-        become your login to manage your schedule and network.
+        This is a demo checkout — no payment is taken.{" "}
+        {oauth
+          ? `You're verified with ${oauth.provider}; that's your login.`
+          : "Your email and password become your login to manage your schedule and network."}
       </p>
     </form>
   );
@@ -114,12 +135,16 @@ function Field({
   type = "text",
   required,
   className = "",
+  defaultValue,
+  readOnly,
 }: {
   name: string;
   label: string;
   type?: string;
   required?: boolean;
   className?: string;
+  defaultValue?: string;
+  readOnly?: boolean;
 }) {
   return (
     <label className={`block ${className}`}>
@@ -131,7 +156,11 @@ function Field({
         name={name}
         type={type}
         required={required}
-        className="mt-1 w-full rounded-lg border border-cream/15 px-3 py-2.5 text-sm outline-none transition-colors focus:border-brand focus:ring-2 focus:ring-brand/20"
+        defaultValue={defaultValue}
+        readOnly={readOnly}
+        className={`mt-1 w-full rounded-lg border border-cream/15 px-3 py-2.5 text-sm outline-none transition-colors focus:border-brand focus:ring-2 focus:ring-brand/20 ${
+          readOnly ? "cursor-not-allowed text-ink/60" : ""
+        }`}
       />
     </label>
   );
